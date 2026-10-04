@@ -98,5 +98,57 @@
     "sendArrives": "Send flow arrives in Build 03.",
     "backToGallery": "GALLERY",
     "collection": "COLLECTION"
+  },
+  "send": {
+    "step1": {
+      "heading": "SAY SOMETHING.",
+      "label": "Your private message",
+      "placeholder": "Write something private…",
+      "hint": "Maximum 320 characters. Only your recipient will see this.",
+      "cta": "CONTINUE"
+    },
+    "step2": {
+      "heading": "TO / FROM",
+      "recipientName": "RECIPIENT NAME",
+      "recipientEmail": "RECIPIENT EMAIL",
+      "senderName": "YOUR NAME",
+      "senderEmail": "YOUR EMAIL",
+      "privacy": "Your Bloom will be delivered privately.",
+      "back": "← SAY SOMETHING",
+      "cta": "CONTINUE"
+    },
+    "step3": {
+      "heading": "SEND THIS BLOOM",
+      "to": "TO",
+      "from": "FROM",
+      "edition": "EDITION",
+      "message": "MESSAGE",
+      "total": "TOTAL",
+      "price": "$25",
+      "back": "← TO / FROM",
+      "cta": "SEND THIS BLOOM — $25",
+      "preparing": "PREPARING YOUR BLOOM.",
+      "cancel": "← CANCEL",
+      "paymentHeading": "PAYMENT"
+    },
+    "errors": {
+      "messageRequired": "Please write a message.",
+      "messageTooLong": "Maximum 320 characters.",
+      "nameRequired": "Name is required.",
+      "emailInvalid": "Please enter a valid email address.",
+      "checkoutFailed": "Payment setup failed. Please try again.",
+      "bloomUnavailable": "This Bloom is no longer available."
+    }
+  },
+  "sent": {
+    "finishing": "FINISHING YOUR BLOOM.",
+    "ready": "YOUR BLOOM IS READY.",
+    "paymentConfirmed": "Payment confirmed.",
+    "deliveryNote": "Recipient delivery arrives in the next build.",
+    "edition": "EDITION",
+    "notCompleted": "PAYMENT WASN'T COMPLETED.",
+    "notCompletedSub": "Your Bloom has not been sent.",
+    "tryAgain": "TRY AGAIN",
+    "backToGallery": "← GALLERY"
   }
 }

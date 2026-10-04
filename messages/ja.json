@@ -107,5 +107,57 @@
     "sendArrives": "送信フローはビルド03で提供されます。",
     "backToGallery": "ギャラリー",
     "collection": "コレクション"
+  },
+  "send": {
+    "step1": {
+      "heading": "何か伝えてください。",
+      "label": "プライベートメッセージ",
+      "placeholder": "プライベートな内容を書いてください…",
+      "hint": "最大320文字。受取人だけが見ることができます。",
+      "cta": "続ける"
+    },
+    "step2": {
+      "heading": "宛先 / 差出人",
+      "recipientName": "受取人のお名前",
+      "recipientEmail": "受取人のメールアドレス",
+      "senderName": "あなたのお名前",
+      "senderEmail": "あなたのメールアドレス",
+      "privacy": "ブルームはプライベートに届けられます。",
+      "back": "← メッセージに戻る",
+      "cta": "続ける"
+    },
+    "step3": {
+      "heading": "このブルームを送る",
+      "to": "宛先",
+      "from": "差出人",
+      "edition": "エディション",
+      "message": "メッセージ",
+      "total": "合計",
+      "price": "$25",
+      "back": "← 宛先 / 差出人",
+      "cta": "このブルームを送る — $25",
+      "preparing": "ブルームを準備中です。",
+      "cancel": "← キャンセル",
+      "paymentHeading": "お支払い"
+    },
+    "errors": {
+      "messageRequired": "メッセージを入力してください。",
+      "messageTooLong": "最大320文字です。",
+      "nameRequired": "お名前は必須です。",
+      "emailInvalid": "有効なメールアドレスを入力してください。",
+      "checkoutFailed": "決済の設定に失敗しました。もう一度お試しください。",
+      "bloomUnavailable": "このブルームはご利用いただけなくなりました。"
+    }
+  },
+  "sent": {
+    "finishing": "ブルームを仕上げています。",
+    "ready": "ブルームの準備ができました。",
+    "paymentConfirmed": "お支払いが確認されました。",
+    "deliveryNote": "受取人への配信は次のアップデートで提供されます。",
+    "edition": "エディション",
+    "notCompleted": "お支払いが完了しませんでした。",
+    "notCompletedSub": "ブルームは送信されませんでした。",
+    "tryAgain": "もう一度試す",
+    "backToGallery": "← ギャラリー"
   }
 }

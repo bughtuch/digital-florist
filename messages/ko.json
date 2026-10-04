@@ -107,5 +107,57 @@
     "sendArrives": "전송 흐름은 빌드 03에서 제공됩니다.",
     "backToGallery": "갤러리",
     "collection": "컬렉션"
+  },
+  "send": {
+    "step1": {
+      "heading": "뭔가를 전하세요.",
+      "label": "개인 메시지",
+      "placeholder": "개인적인 내용을 써보세요…",
+      "hint": "최대 320자. 수신자만 볼 수 있습니다.",
+      "cta": "계속"
+    },
+    "step2": {
+      "heading": "받는 분 / 보내는 분",
+      "recipientName": "받는 분 이름",
+      "recipientEmail": "받는 분 이메일",
+      "senderName": "내 이름",
+      "senderEmail": "내 이메일",
+      "privacy": "블룸은 비공개로 전달됩니다.",
+      "back": "← 메시지로 돌아가기",
+      "cta": "계속"
+    },
+    "step3": {
+      "heading": "이 블룸 보내기",
+      "to": "받는 분",
+      "from": "보내는 분",
+      "edition": "에디션",
+      "message": "메시지",
+      "total": "합계",
+      "price": "$25",
+      "back": "← 받는 분 / 보내는 분",
+      "cta": "이 블룸 보내기 — $25",
+      "preparing": "블룸을 준비하고 있습니다.",
+      "cancel": "← 취소",
+      "paymentHeading": "결제"
+    },
+    "errors": {
+      "messageRequired": "메시지를 작성해 주세요.",
+      "messageTooLong": "최대 320자입니다.",
+      "nameRequired": "이름이 필요합니다.",
+      "emailInvalid": "유효한 이메일 주소를 입력해 주세요.",
+      "checkoutFailed": "결제 설정에 실패했습니다. 다시 시도해 주세요.",
+      "bloomUnavailable": "이 블룸은 더 이상 구매할 수 없습니다."
+    }
+  },
+  "sent": {
+    "finishing": "블룸을 완성하는 중입니다.",
+    "ready": "블룸이 준비되었습니다.",
+    "paymentConfirmed": "결제가 확인되었습니다.",
+    "deliveryNote": "수신자 전달은 다음 업데이트에서 제공됩니다.",
+    "edition": "에디션",
+    "notCompleted": "결제가 완료되지 않았습니다.",
+    "notCompletedSub": "블룸이 전송되지 않았습니다.",
+    "tryAgain": "다시 시도",
+    "backToGallery": "← 갤러리"
   }
 }

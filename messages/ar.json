@@ -107,5 +107,57 @@
     "sendArrives": "تدفق الإرسال يصل في البناء 03.",
     "backToGallery": "المعرض",
     "collection": "المجموعة"
+  },
+  "send": {
+    "step1": {
+      "heading": "قل شيئاً.",
+      "label": "رسالتك الخاصة",
+      "placeholder": "اكتب شيئاً خاصاً…",
+      "hint": "الحد الأقصى 320 حرفاً. المستلم فقط سيرى هذا.",
+      "cta": "متابعة"
+    },
+    "step2": {
+      "heading": "إلى / من",
+      "recipientName": "اسم المستلم",
+      "recipientEmail": "بريد المستلم",
+      "senderName": "اسمك",
+      "senderEmail": "بريدك الإلكتروني",
+      "privacy": "سيُسلَّم Bloom الخاص بك بشكل خاص.",
+      "back": "→ قل شيئاً",
+      "cta": "متابعة"
+    },
+    "step3": {
+      "heading": "أرسل هذه الزهرة",
+      "to": "إلى",
+      "from": "من",
+      "edition": "الإصدار",
+      "message": "الرسالة",
+      "total": "المجموع",
+      "price": "$25",
+      "back": "→ إلى / من",
+      "cta": "أرسل هذه الزهرة — $25",
+      "preparing": "جارٍ تحضير زهرتك.",
+      "cancel": "→ إلغاء",
+      "paymentHeading": "الدفع"
+    },
+    "errors": {
+      "messageRequired": "يرجى كتابة رسالة.",
+      "messageTooLong": "الحد الأقصى 320 حرفاً.",
+      "nameRequired": "الاسم مطلوب.",
+      "emailInvalid": "يرجى إدخال بريد إلكتروني صحيح.",
+      "checkoutFailed": "فشل إعداد الدفع. يرجى المحاولة مرة أخرى.",
+      "bloomUnavailable": "هذا Bloom لم يعد متاحاً."
+    }
+  },
+  "sent": {
+    "finishing": "جارٍ إنهاء زهرتك.",
+    "ready": "زهرتك جاهزة.",
+    "paymentConfirmed": "تم تأكيد الدفع.",
+    "deliveryNote": "تسليم المستلم يصل في التحديث القادم.",
+    "edition": "الإصدار",
+    "notCompleted": "لم يكتمل الدفع.",
+    "notCompletedSub": "لم يُرسَل Bloom الخاص بك.",
+    "tryAgain": "حاول مرة أخرى",
+    "backToGallery": "→ المعرض"
   }
 }

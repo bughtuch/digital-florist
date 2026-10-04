@@ -107,5 +107,57 @@
     "sendArrives": "Il flusso di invio arriva nel Build 03.",
     "backToGallery": "GALLERIA",
     "collection": "COLLEZIONE"
+  },
+  "send": {
+    "step1": {
+      "heading": "DI' QUALCOSA.",
+      "label": "Il tuo messaggio privato",
+      "placeholder": "Scrivi qualcosa di privato…",
+      "hint": "Massimo 320 caratteri. Solo il destinatario lo vedrà.",
+      "cta": "CONTINUA"
+    },
+    "step2": {
+      "heading": "A / DA",
+      "recipientName": "NOME DESTINATARIO",
+      "recipientEmail": "EMAIL DESTINATARIO",
+      "senderName": "IL TUO NOME",
+      "senderEmail": "LA TUA EMAIL",
+      "privacy": "Il tuo Bloom sarà consegnato in modo privato.",
+      "back": "← DI' QUALCOSA",
+      "cta": "CONTINUA"
+    },
+    "step3": {
+      "heading": "INVIA QUESTO BLOOM",
+      "to": "A",
+      "from": "DA",
+      "edition": "EDIZIONE",
+      "message": "MESSAGGIO",
+      "total": "TOTALE",
+      "price": "$25",
+      "back": "← A / DA",
+      "cta": "INVIA QUESTO BLOOM — $25",
+      "preparing": "PREPARAZIONE DEL TUO BLOOM.",
+      "cancel": "← ANNULLA",
+      "paymentHeading": "PAGAMENTO"
+    },
+    "errors": {
+      "messageRequired": "Scrivi un messaggio.",
+      "messageTooLong": "Massimo 320 caratteri.",
+      "nameRequired": "Il nome è obbligatorio.",
+      "emailInvalid": "Inserisci un indirizzo email valido.",
+      "checkoutFailed": "Configurazione pagamento fallita. Riprova.",
+      "bloomUnavailable": "Questo Bloom non è più disponibile."
+    }
+  },
+  "sent": {
+    "finishing": "COMPLETAMENTO DEL TUO BLOOM.",
+    "ready": "IL TUO BLOOM È PRONTO.",
+    "paymentConfirmed": "Pagamento confermato.",
+    "deliveryNote": "La consegna al destinatario arriva nel prossimo aggiornamento.",
+    "edition": "EDIZIONE",
+    "notCompleted": "PAGAMENTO NON COMPLETATO.",
+    "notCompletedSub": "Il tuo Bloom non è stato inviato.",
+    "tryAgain": "RIPROVA",
+    "backToGallery": "← GALLERIA"
   }
 }
