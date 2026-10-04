@@ -108,6 +108,19 @@
     "backToGallery": "المعرض",
     "collection": "المجموعة"
   },
+  "reveal": {
+    "fromLine": "زهرة من",
+    "messageLabel": "الرسالة",
+    "editionLabel": "الإصدار",
+    "houseLabel": "DIGITAL FLORIST HOUSE",
+    "keepCta": "احتفظ بها في خزينتي",
+    "sendBackCta": "أرسل زهرة في المقابل"
+  },
+  "claim": {
+    "heading": "احتفظ بهذه الزهرة.",
+    "body": "خزينتك الخاصة ستأتي قريباً.",
+    "back": "→ عودة"
+  },
   "send": {
     "step1": {
       "heading": "قل شيئاً.",

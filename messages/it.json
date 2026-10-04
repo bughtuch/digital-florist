@@ -108,6 +108,19 @@
     "backToGallery": "GALLERIA",
     "collection": "COLLEZIONE"
   },
+  "reveal": {
+    "fromLine": "UN BLOOM DA",
+    "messageLabel": "MESSAGGIO",
+    "editionLabel": "EDIZIONE",
+    "houseLabel": "DIGITAL FLORIST HOUSE",
+    "keepCta": "TIENI NEL MIO VAULT",
+    "sendBackCta": "INVIA UN BLOOM IN RISPOSTA"
+  },
+  "claim": {
+    "heading": "TIENI QUESTO BLOOM.",
+    "body": "Il tuo Vault privato arriva prossimamente.",
+    "back": "← Ritorna"
+  },
   "send": {
     "step1": {
       "heading": "DI' QUALCOSA.",

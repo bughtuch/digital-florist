@@ -108,6 +108,19 @@
     "backToGallery": "갤러리",
     "collection": "컬렉션"
   },
+  "reveal": {
+    "fromLine": "BLOOM 보내는 분",
+    "messageLabel": "메시지",
+    "editionLabel": "에디션",
+    "houseLabel": "DIGITAL FLORIST HOUSE",
+    "keepCta": "내 볼트에 보관",
+    "sendBackCta": "블룸으로 답장 보내기"
+  },
+  "claim": {
+    "heading": "이 블룸을 보관하세요.",
+    "body": "나만의 프라이빗 볼트가 곧 출시됩니다.",
+    "back": "← 돌아가기"
+  },
   "send": {
     "step1": {
       "heading": "뭔가를 전하세요.",

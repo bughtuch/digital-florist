@@ -199,3 +199,48 @@ body {
     border-bottom-color: currentColor;
   }
 }
+
+/* ——————————————————————————————————————
+   Reveal animation
+   Cinematic, sequential fade-in.
+   animation-fill-mode: both keeps elements at opacity 0
+   before their delay fires, then holds them at opacity 1 after.
+   prefers-reduced-motion: shows everything immediately.
+—————————————————————————————————————— */
+@keyframes df-reveal-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@layer components {
+  .reveal-house-mark {
+    animation: df-reveal-fade 0.8s ease-out 0.2s both;
+  }
+  .reveal-from-line {
+    animation: df-reveal-fade 1.2s ease-out 0.7s both;
+  }
+  .reveal-artwork {
+    animation: df-reveal-fade 3s ease-out 3s both;
+  }
+  .reveal-message {
+    animation: df-reveal-fade 1s ease-out 6.5s both;
+  }
+  .reveal-provenance {
+    animation: df-reveal-fade 0.8s ease-out 7.6s both;
+  }
+  .reveal-cta {
+    animation: df-reveal-fade 0.8s ease-out 8.5s both;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal-house-mark,
+    .reveal-from-line,
+    .reveal-artwork,
+    .reveal-message,
+    .reveal-provenance,
+    .reveal-cta {
+      animation: none;
+      opacity: 1;
+    }
+  }
+}

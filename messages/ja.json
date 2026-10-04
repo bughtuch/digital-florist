@@ -108,6 +108,19 @@
     "backToGallery": "ギャラリー",
     "collection": "コレクション"
   },
+  "reveal": {
+    "fromLine": "送り主",
+    "messageLabel": "メッセージ",
+    "editionLabel": "エディション",
+    "houseLabel": "DIGITAL FLORIST HOUSE",
+    "keepCta": "マイヴォールトに保存",
+    "sendBackCta": "ブルームを送り返す"
+  },
+  "claim": {
+    "heading": "このブルームを保管する。",
+    "body": "プライベートヴォールトは近日公開予定です。",
+    "back": "← 戻る"
+  },
   "send": {
     "step1": {
       "heading": "何か伝えてください。",

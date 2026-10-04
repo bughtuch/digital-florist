@@ -140,6 +140,19 @@
       "bloomUnavailable": "This Bloom is no longer available."
     }
   },
+  "reveal": {
+    "fromLine": "A BLOOM FROM",
+    "messageLabel": "MESSAGE",
+    "editionLabel": "EDITION",
+    "houseLabel": "DIGITAL FLORIST HOUSE",
+    "keepCta": "KEEP IN MY VAULT",
+    "sendBackCta": "SEND A BLOOM BACK"
+  },
+  "claim": {
+    "heading": "KEEP THIS BLOOM.",
+    "body": "Your private Vault arrives next.",
+    "back": "← Return"
+  },
   "sent": {
     "finishing": "FINISHING YOUR BLOOM.",
     "ready": "YOUR BLOOM IS READY.",
