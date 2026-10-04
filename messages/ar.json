@@ -80,5 +80,32 @@
   "placeholderPage": {
     "coming": "قريباً.",
     "back": "العودة إلى الرئيسية"
+  },
+  "gallery": {
+    "heading": "المعرض",
+    "subline": "مجموعة الدار الحالية / 2026",
+    "filterAll": "الكل",
+    "filterLabel": "المجموعة"
+  },
+  "collections": {
+    "afterhours": "AFTERHOURS",
+    "morning": "MORNING",
+    "memory": "MEMORY",
+    "ritual": "RITUAL",
+    "city": "CITY"
+  },
+  "bloom": {
+    "sendCta": "أرسل هذه الزهرة",
+    "price": "$25",
+    "edition": "الإصدار",
+    "origin": "المصدر",
+    "house": "الدار",
+    "material": "المادة",
+    "year": "السنة",
+    "archived": "مؤرشف",
+    "archivedMessage": "هذه الزهرة تعيش الآن فقط في خزائن خاصة.",
+    "sendArrives": "تدفق الإرسال يصل في البناء 03.",
+    "backToGallery": "المعرض",
+    "collection": "المجموعة"
   }
 }

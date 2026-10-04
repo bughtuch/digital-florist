@@ -1,16 +1,27 @@
-// Supabase server client — stub until Build 02.
-// Install @supabase/ssr before Build 02.
-//
-// import { createServerClient } from '@supabase/ssr';
-// import { cookies } from 'next/headers';
-//
-// export async function createClient() {
-//   const cookieStore = await cookies();
-//   return createServerClient(
-//     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-//     process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
-//     { cookies: { getAll: () => cookieStore.getAll(), setAll: (s) => { try { s.forEach(({ name, value, options }) => cookieStore.set(name, value, options)); } catch {} } } }
-//   );
-// }
+import { createServerClient } from '@supabase/ssr';
+import { cookies } from 'next/headers';
 
-export {};
+export async function createClient() {
+  const cookieStore = await cookies();
+
+  return createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return cookieStore.getAll();
+        },
+        setAll(cookiesToSet) {
+          try {
+            cookiesToSet.forEach(({ name, value, options }) =>
+              cookieStore.set(name, value, options),
+            );
+          } catch {
+            // Server component context — cookie writes are a no-op
+          }
+        },
+      },
+    },
+  );
+}

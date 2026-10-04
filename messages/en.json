@@ -33,18 +33,9 @@
   "howItWorks": {
     "heading": "HOW IT WORKS",
     "steps": [
-      {
-        "title": "CHOOSE",
-        "body": "A Bloom from the current House collection."
-      },
-      {
-        "title": "WRITE",
-        "body": "A private message. Nothing public."
-      },
-      {
-        "title": "SEND",
-        "body": "$25. Delivered privately. Kept forever."
-      }
+      { "title": "CHOOSE", "body": "A Bloom from the current House collection." },
+      { "title": "WRITE",  "body": "A private message. Nothing public." },
+      { "title": "SEND",   "body": "$25. Delivered privately. Kept forever." }
     ]
   },
   "cityOrigins": {
@@ -80,5 +71,32 @@
   "placeholderPage": {
     "coming": "Coming soon.",
     "back": "Return home"
+  },
+  "gallery": {
+    "heading": "GALLERY",
+    "subline": "CURRENT HOUSE COLLECTION / 2026",
+    "filterAll": "ALL",
+    "filterLabel": "Collection"
+  },
+  "collections": {
+    "afterhours": "AFTERHOURS",
+    "morning": "MORNING",
+    "memory": "MEMORY",
+    "ritual": "RITUAL",
+    "city": "CITY"
+  },
+  "bloom": {
+    "sendCta": "SEND THIS BLOOM",
+    "price": "$25",
+    "edition": "EDITION",
+    "origin": "ORIGIN",
+    "house": "HOUSE",
+    "material": "MATERIAL",
+    "year": "YEAR",
+    "archived": "ARCHIVED",
+    "archivedMessage": "This Bloom now lives only in private Vaults.",
+    "sendArrives": "Send flow arrives in Build 03.",
+    "backToGallery": "GALLERY",
+    "collection": "COLLECTION"
   }
 }

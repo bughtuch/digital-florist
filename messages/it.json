@@ -80,5 +80,32 @@
   "placeholderPage": {
     "coming": "Prossimamente.",
     "back": "Torna alla home"
+  },
+  "gallery": {
+    "heading": "GALLERIA",
+    "subline": "COLLEZIONE HOUSE CORRENTE / 2026",
+    "filterAll": "TUTTI",
+    "filterLabel": "Collezione"
+  },
+  "collections": {
+    "afterhours": "AFTERHOURS",
+    "morning": "MORNING",
+    "memory": "MEMORY",
+    "ritual": "RITUAL",
+    "city": "CITY"
+  },
+  "bloom": {
+    "sendCta": "INVIA QUESTO BLOOM",
+    "price": "$25",
+    "edition": "EDIZIONE",
+    "origin": "ORIGINE",
+    "house": "CASA",
+    "material": "MATERIALE",
+    "year": "ANNO",
+    "archived": "ARCHIVIATO",
+    "archivedMessage": "Questo Bloom vive ora solo in vault privati.",
+    "sendArrives": "Il flusso di invio arriva nel Build 03.",
+    "backToGallery": "GALLERIA",
+    "collection": "COLLEZIONE"
   }
 }

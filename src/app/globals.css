@@ -127,6 +127,64 @@ body {
 }
 
 /* ——————————————————————————————————————
+   Gallery art placeholder variants
+   Six visual identities seeded from bloom slug.
+   All are near-black — warmth suggests bloom presence.
+—————————————————————————————————————— */
+@layer components {
+  .art-placeholder {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    inset: 0;
+    animation: bloom-breathe 14s ease-in-out infinite;
+  }
+
+  .art-placeholder-0 {
+    background:
+      radial-gradient(ellipse 55% 45% at 50% 18%, #181310 0%, #0a0908 55%, #080706 100%),
+      radial-gradient(ellipse 30% 20% at 50% 10%, #1a1410 0%, transparent 70%);
+  }
+  .art-placeholder-1 {
+    background:
+      radial-gradient(ellipse 50% 60% at 28% 30%, #161412 0%, #0b0909 50%, #080706 100%),
+      radial-gradient(ellipse 20% 30% at 25% 25%, #1c1612 0%, transparent 60%);
+  }
+  .art-placeholder-2 {
+    background:
+      radial-gradient(ellipse 60% 50% at 70% 25%, #14120f 0%, #0a0908 50%, #080706 100%),
+      radial-gradient(ellipse 25% 25% at 72% 20%, #1a1510 0%, transparent 65%);
+  }
+  .art-placeholder-3 {
+    background:
+      radial-gradient(ellipse 50% 40% at 50% 50%, #161412 0%, #0c0a09 45%, #080706 100%);
+  }
+  .art-placeholder-4 {
+    background:
+      radial-gradient(ellipse 40% 30% at 35% 20%, #181310 0%, transparent 60%),
+      radial-gradient(ellipse 35% 25% at 65% 35%, #141210 0%, transparent 55%),
+      #080706;
+  }
+  .art-placeholder-5 {
+    background:
+      radial-gradient(ellipse 30% 25% at 50% 22%, #131110 0%, #0a0908 40%, #080706 100%);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .art-placeholder { animation: none; opacity: 1; }
+  }
+}
+
+/* ——————————————————————————————————————
+   Custom aspect ratios for gallery grid
+—————————————————————————————————————— */
+@layer utilities {
+  .aspect-portrait  { aspect-ratio: 3 / 4; }
+  .aspect-tall      { aspect-ratio: 4 / 5; }
+  .aspect-cinema    { aspect-ratio: 16 / 7; }
+}
+
+/* ——————————————————————————————————————
    House link style — no underline by default,
    hairline on hover
 —————————————————————————————————————— */

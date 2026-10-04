@@ -80,5 +80,32 @@
   "placeholderPage": {
     "coming": "곧 출시됩니다.",
     "back": "홈으로 돌아가기"
+  },
+  "gallery": {
+    "heading": "갤러리",
+    "subline": "현재 하우스 컬렉션 / 2026",
+    "filterAll": "전체",
+    "filterLabel": "컬렉션"
+  },
+  "collections": {
+    "afterhours": "AFTERHOURS",
+    "morning": "MORNING",
+    "memory": "MEMORY",
+    "ritual": "RITUAL",
+    "city": "CITY"
+  },
+  "bloom": {
+    "sendCta": "이 블룸 보내기",
+    "price": "$25",
+    "edition": "에디션",
+    "origin": "출처",
+    "house": "하우스",
+    "material": "소재",
+    "year": "연도",
+    "archived": "아카이브",
+    "archivedMessage": "이 블룸은 이제 프라이빗 볼트에만 존재합니다.",
+    "sendArrives": "전송 흐름은 빌드 03에서 제공됩니다.",
+    "backToGallery": "갤러리",
+    "collection": "컬렉션"
   }
 }

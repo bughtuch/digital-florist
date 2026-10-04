@@ -80,5 +80,32 @@
   "placeholderPage": {
     "coming": "近日公開。",
     "back": "ホームに戻る"
+  },
+  "gallery": {
+    "heading": "ギャラリー",
+    "subline": "現在のハウスコレクション / 2026",
+    "filterAll": "すべて",
+    "filterLabel": "コレクション"
+  },
+  "collections": {
+    "afterhours": "AFTERHOURS",
+    "morning": "MORNING",
+    "memory": "MEMORY",
+    "ritual": "RITUAL",
+    "city": "CITY"
+  },
+  "bloom": {
+    "sendCta": "このブルームを送る",
+    "price": "$25",
+    "edition": "エディション",
+    "origin": "出所",
+    "house": "ハウス",
+    "material": "素材",
+    "year": "年",
+    "archived": "アーカイブ",
+    "archivedMessage": "このブルームは今、プライベートヴォールトにのみ存在します。",
+    "sendArrives": "送信フローはビルド03で提供されます。",
+    "backToGallery": "ギャラリー",
+    "collection": "コレクション"
   }
 }
