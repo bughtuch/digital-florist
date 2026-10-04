@@ -34,7 +34,7 @@ export default function HowItWorks() {
               </h3>
 
               {/* Step body */}
-              <p className="mt-6 text-[clamp(0.75rem,1.1vw,0.85rem)] leading-[1.9] tracking-[0.04em] text-df-muted">
+              <p className="mt-6 text-[clamp(0.75rem,1.1vw,0.85rem)] leading-[1.9] tracking-[0.04em] text-df-text">
                 {step.body}
               </p>
 

@@ -15,7 +15,7 @@ export default function CityOrigins() {
           {t('heading')}
         </p>
 
-        {/* City code list — large editorial type */}
+        {/* City name list — full names in large editorial type */}
         <ul className="flex flex-col divide-y divide-df-border">
           {cities.map(({ code, name }) => (
             <li
@@ -31,10 +31,11 @@ export default function CityOrigins() {
                 font-light tracking-[-0.01em] text-df-text
                 transition-colors duration-300
               ">
-                {code}
-              </span>
-              <span className="text-[10px] tracking-[0.14em] text-df-faint uppercase transition-colors duration-300 group-hover:text-df-muted">
                 {name}
+              </span>
+              {/* Code as provenance metadata — stays subtle */}
+              <span className="text-[10px] tracking-[0.14em] text-df-faint uppercase transition-colors duration-300 group-hover:text-df-muted">
+                {code}
               </span>
             </li>
           ))}

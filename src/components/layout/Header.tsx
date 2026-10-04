@@ -57,7 +57,7 @@ export default function Header({ locale }: Props) {
               <Link
                 key={href}
                 href={href}
-                className="text-[11px] tracking-[0.12em] text-df-muted hover:text-df-text transition-colors duration-300"
+                className="text-[11px] tracking-[0.12em] text-df-text opacity-70 hover:opacity-100 transition-opacity duration-300"
               >
                 {label}
               </Link>

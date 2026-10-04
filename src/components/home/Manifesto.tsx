@@ -19,7 +19,7 @@ export default function Manifesto() {
           aria-label={`${t('line1')} ${t('line2')}`}
         >
           <span className="block">{t('line1')}</span>
-          <span className="block text-df-muted">{t('line2')}</span>
+          <span className="block">{t('line2')}</span>
         </p>
       </div>
     </section>

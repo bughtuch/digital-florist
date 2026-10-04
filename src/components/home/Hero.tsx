@@ -25,7 +25,7 @@ export default function Hero({ locale }: Props) {
           </h1>
 
           {/* Supporting text */}
-          <p className="mt-8 text-[clamp(0.8rem,1.2vw,0.95rem)] leading-[1.8] tracking-[0.04em] text-df-muted">
+          <p className="mt-8 text-[clamp(0.8rem,1.2vw,0.95rem)] leading-[1.8] tracking-[0.04em] text-df-text">
             {bodyLines.map((line, i) => (
               <span key={i} className={i > 0 ? 'block mt-1' : undefined}>
                 {line}

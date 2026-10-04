@@ -26,10 +26,10 @@ export default function FinalCta({ locale }: Props) {
           <Link
             href={`/${locale}/gallery`}
             className="
-              inline-block border border-df-muted px-10 py-4
-              text-[11px] tracking-[0.18em] text-df-muted uppercase
+              inline-block border border-df-text px-10 py-4
+              text-[11px] tracking-[0.18em] text-df-text uppercase
               transition-all duration-500
-              hover:border-df-text hover:text-df-text
+              hover:bg-df-text hover:text-df-black
               focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-df-text
             "
           >
