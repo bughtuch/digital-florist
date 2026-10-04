@@ -90,6 +90,10 @@ export async function POST(req: NextRequest) {
           return NextResponse.json({ error: 'Finalisation failed.' }, { status: 500 });
         }
 
+        // TODO (Build 06): call supabase.rpc('ensure_city_receipt', { p_gift_id: giftId })
+        // ensure_city_receipt is idempotent and service_role only.
+        // Log errors but do not fail the webhook — receipt issuance is non-critical.
+
         break;
       }
 

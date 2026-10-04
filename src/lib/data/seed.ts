@@ -77,3 +77,4 @@ export const SEED_BLOOMS: BloomWithRelations[] = [
 ];
 
 export const SEED_COLLECTIONS = Object.values(COLLECTIONS);
+export const SEED_CITIES: DbCity[] = Object.values(CITIES);

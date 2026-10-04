@@ -2,6 +2,7 @@
   "nav": {
     "gallery": "المعرض",
     "cities": "المدن",
+    "archive": "الأرشيف",
     "vault": "الخزينة",
     "about": "عن الدار",
     "login": "دخول",
@@ -192,7 +193,36 @@
     "cities": "مدن",
     "backToVault": "الخزينة →",
     "edition": "إصدار",
-    "claimedOn": "تاريخ الحفظ"
+    "claimedOn": "تاريخ الحفظ",
+    "cityReceipt": "إيصال المدينة"
+  },
+  "archive": {
+    "heading": "أرشيف الدار",
+    "subline": "جميع الزهور / 2026",
+    "cityLabel": "المدينة",
+    "bloomsLabel": "زهور",
+    "editionLabel": "إصدار"
+  },
+  "cityPages": {
+    "allCities": "جميع المدن",
+    "bloomsInCity": "زهور",
+    "houseLabel": "DIGITAL FLORIST HOUSE",
+    "archiveLabel": "أرشيف الدار",
+    "backToArchive": "الأرشيف →"
+  },
+  "receipt": {
+    "heading": "إيصال المدينة",
+    "subheading": "DIGITAL FLORIST HOUSE",
+    "receiptCode": "الإيصال",
+    "bloom": "الزهرة",
+    "city": "المدينة",
+    "edition": "الإصدار",
+    "issuedTo": "صادر إلى",
+    "issuedOn": "التاريخ",
+    "permanent": "سجل دائم",
+    "backToEntry": "الخزينة →",
+    "notIssued": "لم يُصدر الإيصال بعد.",
+    "notIssuedBody": "تُصدر إيصالات المدينة بعد الاستلام. تحقق مجدداً قريباً."
   },
   "sent": {
     "finishing": "جارٍ إنهاء زهرتك.",

@@ -15,6 +15,7 @@ const localeCodes: Record<string, string> = {
 export default function Footer({ locale }: Props) {
   const t = useTranslations('footer');
   const tLang = useTranslations('languages');
+  const tNav = useTranslations('nav');
 
   return (
     <footer className="border-t border-df-border bg-df-black">
@@ -33,10 +34,18 @@ export default function Footer({ locale }: Props) {
             </span>
           </div>
 
-          {/* Cities */}
-          <p className="text-[11px] tracking-[0.08em] text-df-faint">
-            {t('cities')}
-          </p>
+          {/* Archive link + cities */}
+          <div className="flex flex-col gap-3 items-end">
+            <Link
+              href={`/${locale}/archive`}
+              className="text-[9px] tracking-[0.2em] text-df-faint hover:text-df-muted uppercase transition-colors duration-300"
+            >
+              {tNav('archive')} →
+            </Link>
+            <p className="text-[11px] tracking-[0.08em] text-df-faint">
+              {t('cities')}
+            </p>
+          </div>
         </div>
 
         {/* Divider */}

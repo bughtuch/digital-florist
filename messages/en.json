@@ -2,6 +2,7 @@
   "nav": {
     "gallery": "GALLERY",
     "cities": "CITIES",
+    "archive": "ARCHIVE",
     "vault": "VAULT",
     "about": "ABOUT",
     "login": "LOGIN",
@@ -183,7 +184,36 @@
     "cities": "CITIES",
     "backToVault": "← VAULT",
     "edition": "EDITION",
-    "claimedOn": "CLAIMED"
+    "claimedOn": "CLAIMED",
+    "cityReceipt": "CITY RECEIPT"
+  },
+  "archive": {
+    "heading": "HOUSE ARCHIVE",
+    "subline": "ALL BLOOMS / 2026",
+    "cityLabel": "CITY",
+    "bloomsLabel": "BLOOMS",
+    "editionLabel": "EDITION"
+  },
+  "cityPages": {
+    "allCities": "ALL CITIES",
+    "bloomsInCity": "BLOOMS",
+    "houseLabel": "DIGITAL FLORIST HOUSE",
+    "archiveLabel": "HOUSE ARCHIVE",
+    "backToArchive": "← ARCHIVE"
+  },
+  "receipt": {
+    "heading": "CITY RECEIPT",
+    "subheading": "DIGITAL FLORIST HOUSE",
+    "receiptCode": "RECEIPT",
+    "bloom": "BLOOM",
+    "city": "CITY",
+    "edition": "EDITION",
+    "issuedTo": "ISSUED",
+    "issuedOn": "DATE",
+    "permanent": "PERMANENT RECORD",
+    "backToEntry": "← VAULT",
+    "notIssued": "RECEIPT NOT YET ISSUED.",
+    "notIssuedBody": "City Receipts are issued after a Bloom is claimed. Check back shortly."
   },
   "sent": {
     "finishing": "FINISHING YOUR BLOOM.",

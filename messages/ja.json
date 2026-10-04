@@ -2,6 +2,7 @@
   "nav": {
     "gallery": "ギャラリー",
     "cities": "都市",
+    "archive": "アーカイブ",
     "vault": "ヴォールト",
     "about": "について",
     "login": "ログイン",
@@ -192,7 +193,36 @@
     "cities": "都市",
     "backToVault": "← ヴォールト",
     "edition": "エディション",
-    "claimedOn": "保管日"
+    "claimedOn": "保管日",
+    "cityReceipt": "シティレシート"
+  },
+  "archive": {
+    "heading": "ハウスアーカイブ",
+    "subline": "全ブルーム / 2026",
+    "cityLabel": "都市",
+    "bloomsLabel": "ブルーム",
+    "editionLabel": "エディション"
+  },
+  "cityPages": {
+    "allCities": "全都市",
+    "bloomsInCity": "ブルーム",
+    "houseLabel": "DIGITAL FLORIST HOUSE",
+    "archiveLabel": "ハウスアーカイブ",
+    "backToArchive": "← アーカイブ"
+  },
+  "receipt": {
+    "heading": "シティレシート",
+    "subheading": "DIGITAL FLORIST HOUSE",
+    "receiptCode": "レシート",
+    "bloom": "ブルーム",
+    "city": "都市",
+    "edition": "エディション",
+    "issuedTo": "発行",
+    "issuedOn": "日付",
+    "permanent": "永久記録",
+    "backToEntry": "← ヴォールト",
+    "notIssued": "レシートはまだ発行されていません。",
+    "notIssuedBody": "シティレシートはブルームが保管された後に発行されます。しばらくしてからご確認ください。"
   },
   "sent": {
     "finishing": "ブルームを仕上げています。",

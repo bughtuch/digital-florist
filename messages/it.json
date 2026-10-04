@@ -2,6 +2,7 @@
   "nav": {
     "gallery": "GALLERIA",
     "cities": "CITTÀ",
+    "archive": "ARCHIVIO",
     "vault": "VAULT",
     "about": "ABOUT",
     "login": "ACCEDI",
@@ -192,7 +193,36 @@
     "cities": "CITTÀ",
     "backToVault": "← VAULT",
     "edition": "EDIZIONE",
-    "claimedOn": "TENUTO IL"
+    "claimedOn": "TENUTO IL",
+    "cityReceipt": "RICEVUTA CITTÀ"
+  },
+  "archive": {
+    "heading": "ARCHIVIO DELLA CASA",
+    "subline": "TUTTI I BLOOM / 2026",
+    "cityLabel": "CITTÀ",
+    "bloomsLabel": "BLOOM",
+    "editionLabel": "EDIZIONE"
+  },
+  "cityPages": {
+    "allCities": "TUTTE LE CITTÀ",
+    "bloomsInCity": "BLOOM",
+    "houseLabel": "DIGITAL FLORIST HOUSE",
+    "archiveLabel": "ARCHIVIO DELLA CASA",
+    "backToArchive": "← ARCHIVIO"
+  },
+  "receipt": {
+    "heading": "RICEVUTA DELLA CITTÀ",
+    "subheading": "DIGITAL FLORIST HOUSE",
+    "receiptCode": "RICEVUTA",
+    "bloom": "BLOOM",
+    "city": "CITTÀ",
+    "edition": "EDIZIONE",
+    "issuedTo": "RILASCIATA A",
+    "issuedOn": "DATA",
+    "permanent": "REGISTRO PERMANENTE",
+    "backToEntry": "← VAULT",
+    "notIssued": "RICEVUTA NON ANCORA EMESSA.",
+    "notIssuedBody": "Le ricevute della città vengono emesse dopo che un Bloom viene reclamato. Ricontrolla tra poco."
   },
   "sent": {
     "finishing": "COMPLETAMENTO DEL TUO BLOOM.",

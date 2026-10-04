@@ -201,6 +201,20 @@ body {
 }
 
 /* ——————————————————————————————————————
+   Print — City Receipt
+   Preserves dark aesthetic when printing.
+—————————————————————————————————————— */
+@media print {
+  html,
+  body {
+    background-color: #080706 !important;
+    color: #f2ede8 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
+
+/* ——————————————————————————————————————
    Reveal animation
    Cinematic, sequential fade-in.
    animation-fill-mode: both keeps elements at opacity 0

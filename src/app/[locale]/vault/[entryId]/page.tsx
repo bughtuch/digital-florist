@@ -150,10 +150,18 @@ export default async function VaultEntryPage({ params }: Props) {
               </dl>
             </div>
 
-            {/* Kept forever mark */}
-            <p className="mt-12 text-[9px] tracking-[0.22em] text-df-faint uppercase">
-              KEPT FOREVER ·
-            </p>
+            {/* Kept forever mark + receipt link */}
+            <div className="mt-12 flex items-center justify-between">
+              <p className="text-[9px] tracking-[0.22em] text-df-faint uppercase">
+                KEPT FOREVER ·
+              </p>
+              <Link
+                href={`/${locale}/vault/${entry.entry_id}/receipt`}
+                className="text-[9px] tracking-[0.22em] text-df-faint hover:text-df-muted uppercase transition-colors duration-300"
+              >
+                {t('cityReceipt')} →
+              </Link>
+            </div>
 
           </div>
         </div>
