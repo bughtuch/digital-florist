@@ -4,10 +4,11 @@ import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import LanguageSelector from '@/components/ui/LanguageSelector';
+import SignOutButton from '@/components/auth/SignOutButton';
 
-type Props = { locale: string };
+type Props = { locale: string; isAuthed?: boolean };
 
-export default function Header({ locale }: Props) {
+export default function Header({ locale, isAuthed = false }: Props) {
   const t = useTranslations('nav');
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -67,12 +68,21 @@ export default function Header({ locale }: Props) {
           {/* Actions */}
           <div className="flex items-center gap-6">
             <LanguageSelector locale={locale} />
-            <Link
-              href={`/${locale}/vault`}
-              className="hidden md:inline text-[11px] tracking-[0.12em] text-df-muted hover:text-df-text transition-colors duration-300"
-            >
-              {t('login')}
-            </Link>
+
+            {isAuthed ? (
+              <SignOutButton
+                locale={locale}
+                label={t('signOut')}
+                className="hidden md:inline text-[11px] tracking-[0.12em] text-df-muted hover:text-df-text transition-colors duration-300"
+              />
+            ) : (
+              <Link
+                href={`/${locale}/vault`}
+                className="hidden md:inline text-[11px] tracking-[0.12em] text-df-muted hover:text-df-text transition-colors duration-300"
+              >
+                {t('login')}
+              </Link>
+            )}
 
             {/* Mobile menu toggle */}
             <button
@@ -136,13 +146,21 @@ export default function Header({ locale }: Props) {
         {/* Menu footer */}
         <div className="flex items-center justify-between px-6 pb-10">
           <LanguageSelector locale={locale} />
-          <Link
-            href={`/${locale}/vault`}
-            onClick={() => setMenuOpen(false)}
-            className="text-[11px] tracking-[0.12em] text-df-muted"
-          >
-            {t('login')}
-          </Link>
+          {isAuthed ? (
+            <SignOutButton
+              locale={locale}
+              label={t('signOut')}
+              className="text-[11px] tracking-[0.12em] text-df-muted"
+            />
+          ) : (
+            <Link
+              href={`/${locale}/vault`}
+              onClick={() => setMenuOpen(false)}
+              className="text-[11px] tracking-[0.12em] text-df-muted"
+            >
+              {t('login')}
+            </Link>
+          )}
         </div>
       </div>
     </>

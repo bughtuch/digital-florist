@@ -5,6 +5,7 @@
     "vault": "ヴォールト",
     "about": "について",
     "login": "ログイン",
+    "signOut": "サインアウト",
     "menu": "メニュー",
     "close": "閉じる"
   },
@@ -118,8 +119,20 @@
   },
   "claim": {
     "heading": "このブルームを保管する。",
-    "body": "プライベートヴォールトは近日公開予定です。",
-    "back": "← 戻る"
+    "signInHeading": "サインインして請求する。",
+    "signInBody": "このブルームが送られたメールアドレスでサインインしてください。",
+    "emailLabel": "メールアドレス",
+    "emailPlaceholder": "your@email.com",
+    "signInCta": "プライベートサインインリンクを送る",
+    "checkEmail": "メールをご確認ください。",
+    "checkEmailBody": "プライベートサインインリンクを送りました。クリックしてブルームを請求してください。",
+    "wrongEmail": "このブルームは別のメールアドレスに送られました。",
+    "wrongEmailBody": "このブルームが届いたメールアドレスでサインインしてください。",
+    "alreadyClaimed": "このブルームはすでにヴォールトに入っています。",
+    "alreadyClaimedBody": "このブルームはすでに保管されています。",
+    "notFound": "ブルームが見つかりません。",
+    "back": "← 戻る",
+    "signOut": "あなたではありませんか？サインアウト"
   },
   "send": {
     "step1": {
@@ -161,6 +174,25 @@
       "checkoutFailed": "決済の設定に失敗しました。もう一度お試しください。",
       "bloomUnavailable": "このブルームはご利用いただけなくなりました。"
     }
+  },
+  "vault": {
+    "heading": "マイヴォールト",
+    "empty": "ヴォールトは空です。",
+    "emptyBody": "誰かにブルームを送るか受け取って、コレクションを始めましょう。",
+    "signIn": "ヴォールトにサインイン",
+    "signInBody": "メールアドレスを入力してプライベートサインインリンクを受け取ってください。",
+    "emailLabel": "メールアドレス",
+    "emailPlaceholder": "your@email.com",
+    "signInCta": "プライベートサインインリンクを送る",
+    "checkEmail": "メールをご確認ください。",
+    "checkEmailBody": "プライベートサインインリンクを送りました。クリックしてヴォールトにアクセスしてください。",
+    "signOut": "サインアウト",
+    "statSuffix": "—",
+    "blooms": "ブルーム",
+    "cities": "都市",
+    "backToVault": "← ヴォールト",
+    "edition": "エディション",
+    "claimedOn": "保管日"
   },
   "sent": {
     "finishing": "ブルームを仕上げています。",

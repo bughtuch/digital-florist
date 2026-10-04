@@ -5,6 +5,7 @@
     "vault": "VAULT",
     "about": "ABOUT",
     "login": "ACCEDI",
+    "signOut": "ESCI",
     "menu": "MENU",
     "close": "CHIUDI"
   },
@@ -118,8 +119,20 @@
   },
   "claim": {
     "heading": "TIENI QUESTO BLOOM.",
-    "body": "Il tuo Vault privato arriva prossimamente.",
-    "back": "← Ritorna"
+    "signInHeading": "ACCEDI PER RIVENDICARE.",
+    "signInBody": "Accedi con l'indirizzo email a cui è stato inviato questo Bloom.",
+    "emailLabel": "LA TUA EMAIL",
+    "emailPlaceholder": "your@email.com",
+    "signInCta": "INVIA LINK DI ACCESSO PRIVATO",
+    "checkEmail": "CONTROLLA LA TUA EMAIL.",
+    "checkEmailBody": "Abbiamo inviato un link di accesso privato. Clicca su di esso per rivendicare il tuo Bloom.",
+    "wrongEmail": "QUESTO BLOOM È STATO INVIATO A UN'EMAIL DIVERSA.",
+    "wrongEmailBody": "Accedi con l'indirizzo email a cui è stato consegnato questo Bloom.",
+    "alreadyClaimed": "QUESTO BLOOM È GIÀ IN UN VAULT.",
+    "alreadyClaimedBody": "Questo Bloom è già stato tenuto.",
+    "notFound": "BLOOM NON TROVATO.",
+    "back": "← Ritorna",
+    "signOut": "Non sei tu? Esci"
   },
   "send": {
     "step1": {
@@ -161,6 +174,25 @@
       "checkoutFailed": "Configurazione pagamento fallita. Riprova.",
       "bloomUnavailable": "Questo Bloom non è più disponibile."
     }
+  },
+  "vault": {
+    "heading": "IL TUO VAULT",
+    "empty": "IL TUO VAULT È VUOTO.",
+    "emptyBody": "Invia un Bloom a qualcuno — o ricevine uno — per iniziare la tua collezione.",
+    "signIn": "ACCEDI AL TUO VAULT",
+    "signInBody": "Inserisci la tua email per ricevere un link di accesso privato.",
+    "emailLabel": "LA TUA EMAIL",
+    "emailPlaceholder": "your@email.com",
+    "signInCta": "INVIA LINK DI ACCESSO PRIVATO",
+    "checkEmail": "CONTROLLA LA TUA EMAIL.",
+    "checkEmailBody": "Abbiamo inviato un link di accesso privato. Clicca su di esso per accedere al tuo Vault.",
+    "signOut": "ESCI",
+    "statSuffix": "—",
+    "blooms": "BLOOM",
+    "cities": "CITTÀ",
+    "backToVault": "← VAULT",
+    "edition": "EDIZIONE",
+    "claimedOn": "TENUTO IL"
   },
   "sent": {
     "finishing": "COMPLETAMENTO DEL TUO BLOOM.",
