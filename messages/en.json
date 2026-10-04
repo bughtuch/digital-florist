@@ -1,0 +1,84 @@
+{
+  "nav": {
+    "gallery": "GALLERY",
+    "cities": "CITIES",
+    "vault": "VAULT",
+    "about": "ABOUT",
+    "login": "LOGIN",
+    "menu": "MENU",
+    "close": "CLOSE"
+  },
+  "hero": {
+    "tagline": "A flower that lives in code.",
+    "body": "Send a bloom to someone's private vault.\nNo social. No feed.\nJust a quiet, beautiful gesture.",
+    "cta": "SEND A BLOOM"
+  },
+  "cityStrip": {
+    "cities": ["LONDON", "DUBAI", "MILANO", "SEOUL", "TOKYO"],
+    "codes": ["LON", "DXB", "MIL", "SEL", "TYO"]
+  },
+  "manifesto": {
+    "line1": "NOT FOR THE VASE.",
+    "line2": "FOR THE VAULT."
+  },
+  "permanence": {
+    "label": "A kept Bloom",
+    "metadata": {
+      "title": "BLACK CALLA",
+      "city": "LON / 004",
+      "edition": "EDITION 018 / 250",
+      "status": "KEPT FOREVER."
+    }
+  },
+  "howItWorks": {
+    "heading": "HOW IT WORKS",
+    "steps": [
+      {
+        "title": "CHOOSE",
+        "body": "A Bloom from the current House collection."
+      },
+      {
+        "title": "WRITE",
+        "body": "A private message. Nothing public."
+      },
+      {
+        "title": "SEND",
+        "body": "$25. Delivered privately. Kept forever."
+      }
+    ]
+  },
+  "cityOrigins": {
+    "heading": "Five cities. One house.",
+    "cities": [
+      { "code": "LON", "name": "London" },
+      { "code": "DXB", "name": "Dubai" },
+      { "code": "MIL", "name": "Milano" },
+      { "code": "SEL", "name": "Seoul" },
+      { "code": "TYO", "name": "Tokyo" }
+    ]
+  },
+  "finalCta": {
+    "statement": "SEND SOMETHING THAT STAYS.",
+    "cta": "EXPLORE THE BLOOMS"
+  },
+  "footer": {
+    "tagline": "A flower that lives in code.",
+    "cities": "London · Dubai · Milano · Seoul · Tokyo",
+    "legal": {
+      "privacy": "Privacy",
+      "terms": "Terms",
+      "rights": "All rights reserved."
+    }
+  },
+  "languages": {
+    "en": "English",
+    "ar": "العربية",
+    "it": "Italiano",
+    "ko": "한국어",
+    "ja": "日本語"
+  },
+  "placeholderPage": {
+    "coming": "Coming soon.",
+    "back": "Return home"
+  }
+}

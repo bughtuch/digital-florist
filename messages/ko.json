@@ -1,0 +1,84 @@
+{
+  "nav": {
+    "gallery": "갤러리",
+    "cities": "도시",
+    "vault": "볼트",
+    "about": "소개",
+    "login": "로그인",
+    "menu": "메뉴",
+    "close": "닫기"
+  },
+  "hero": {
+    "tagline": "코드 속에 사는 꽃.",
+    "body": "누군가의 프라이빗 볼트에 블룸을 보내세요.\n소셜도, 피드도 없습니다.\n조용하고 아름다운 몸짓.",
+    "cta": "블룸 보내기"
+  },
+  "cityStrip": {
+    "cities": ["LONDON", "DUBAI", "MILANO", "SEOUL", "TOKYO"],
+    "codes": ["LON", "DXB", "MIL", "SEL", "TYO"]
+  },
+  "manifesto": {
+    "line1": "꽃병을 위한 것이 아닙니다.",
+    "line2": "볼트를 위한 것입니다."
+  },
+  "permanence": {
+    "label": "보관된 블룸",
+    "metadata": {
+      "title": "BLACK CALLA",
+      "city": "LON / 004",
+      "edition": "EDITION 018 / 250",
+      "status": "영원히 보관됨."
+    }
+  },
+  "howItWorks": {
+    "heading": "이용 방법",
+    "steps": [
+      {
+        "title": "선택",
+        "body": "현재 하우스 컬렉션에서 블룸을 선택하세요."
+      },
+      {
+        "title": "작성",
+        "body": "비공개 메시지. 공개되지 않습니다."
+      },
+      {
+        "title": "전송",
+        "body": "$25. 비공개로 전달됩니다. 영원히 보관됩니다."
+      }
+    ]
+  },
+  "cityOrigins": {
+    "heading": "다섯 도시. 하나의 하우스.",
+    "cities": [
+      { "code": "LON", "name": "런던" },
+      { "code": "DXB", "name": "두바이" },
+      { "code": "MIL", "name": "밀라노" },
+      { "code": "SEL", "name": "서울" },
+      { "code": "TYO", "name": "도쿄" }
+    ]
+  },
+  "finalCta": {
+    "statement": "영원히 남을 것을 보내세요.",
+    "cta": "블룸 탐색하기"
+  },
+  "footer": {
+    "tagline": "코드 속에 사는 꽃.",
+    "cities": "런던 · 두바이 · 밀라노 · 서울 · 도쿄",
+    "legal": {
+      "privacy": "개인정보",
+      "terms": "이용약관",
+      "rights": "모든 권리 보유."
+    }
+  },
+  "languages": {
+    "en": "English",
+    "ar": "العربية",
+    "it": "Italiano",
+    "ko": "한국어",
+    "ja": "日本語"
+  },
+  "placeholderPage": {
+    "coming": "곧 출시됩니다.",
+    "back": "홈으로 돌아가기"
+  }
+}

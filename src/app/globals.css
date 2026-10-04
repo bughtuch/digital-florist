@@ -1,11 +1,143 @@
 @import "tailwindcss";
 
-:root {
-  --background: #000000;
-  --foreground: #ffffff;
+@theme inline {
+  /* House palette */
+  --color-df-black: #080706;
+  --color-df-surface: #0d0c0b;
+  --color-df-surface-2: #121110;
+  --color-df-border: #1a1917;
+  --color-df-border-subtle: #131211;
+  --color-df-text: #f2ede8;
+  --color-df-muted: #6b6560;
+  --color-df-faint: #3a3632;
+
+  /* Typography — variables injected at runtime by next/font */
+  --font-display: var(--font-cormorant), 'Georgia', serif;
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-arabic: var(--font-noto-naskh), 'Segoe UI', 'Arial', sans-serif;
+}
+
+/* ——————————————————————————————————————
+   Base
+—————————————————————————————————————— */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background-color: #080706;
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background-color: #080706;
+  color: #f2ede8;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
+  min-height: 100svh;
+}
+
+/* RTL body uses Arabic font stack for Arabic text */
+[lang="ar"] body,
+[lang="ar"] {
+  font-family: var(--font-arabic);
+}
+
+/* ——————————————————————————————————————
+   Bloom Orb — CSS-only artwork placeholder
+   Marks where Bloom artwork will live.
+—————————————————————————————————————— */
+@layer components {
+  .bloom-orb {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 9999px;
+    background: radial-gradient(
+      ellipse at 38% 28%,
+      #18140f 0%,
+      #0f0d0b 30%,
+      #080706 70%
+    );
+    border: 1px solid rgba(242, 237, 232, 0.06);
+    overflow: hidden;
+    animation: bloom-breathe 10s ease-in-out infinite;
+  }
+
+  .bloom-orb::before {
+    content: '';
+    position: absolute;
+    inset: -10%;
+    border-radius: 9999px;
+    border: 1px solid rgba(242, 237, 232, 0.04);
+    pointer-events: none;
+  }
+
+  .bloom-orb::after {
+    content: '';
+    position: absolute;
+    inset: 18%;
+    border-radius: 9999px;
+    border: 1px solid rgba(242, 237, 232, 0.03);
+    pointer-events: none;
+  }
+
+  .bloom-orb-sm {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    background: radial-gradient(
+      ellipse at 40% 30%,
+      #18140f 0%,
+      #0d0b09 40%,
+      #080706 80%
+    );
+    border: 1px solid rgba(242, 237, 232, 0.06);
+    animation: bloom-breathe 12s ease-in-out infinite;
+  }
+
+  @keyframes bloom-breathe {
+    0%, 100% {
+      opacity: 0.75;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.018);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bloom-orb,
+    .bloom-orb-sm {
+      animation: none;
+      opacity: 1;
+    }
+  }
+}
+
+/* ——————————————————————————————————————
+   House link style — no underline by default,
+   hairline on hover
+—————————————————————————————————————— */
+@layer components {
+  .house-link {
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.4s ease;
+  }
+
+  .house-link:hover {
+    border-bottom-color: currentColor;
+  }
 }

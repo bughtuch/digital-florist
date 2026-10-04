@@ -1,0 +1,84 @@
+{
+  "nav": {
+    "gallery": "ギャラリー",
+    "cities": "都市",
+    "vault": "ヴォールト",
+    "about": "について",
+    "login": "ログイン",
+    "menu": "メニュー",
+    "close": "閉じる"
+  },
+  "hero": {
+    "tagline": "コードの中に生きる花。",
+    "body": "誰かのプライベートヴォールトにブルームを届けましょう。\nソーシャルも、フィードも、ありません。\n静かで、美しい贈り物。",
+    "cta": "ブルームを送る"
+  },
+  "cityStrip": {
+    "cities": ["LONDON", "DUBAI", "MILANO", "SEOUL", "TOKYO"],
+    "codes": ["LON", "DXB", "MIL", "SEL", "TYO"]
+  },
+  "manifesto": {
+    "line1": "花瓶のためではない。",
+    "line2": "ヴォールトのために。"
+  },
+  "permanence": {
+    "label": "保管されたブルーム",
+    "metadata": {
+      "title": "BLACK CALLA",
+      "city": "LON / 004",
+      "edition": "EDITION 018 / 250",
+      "status": "永遠に保管されます。"
+    }
+  },
+  "howItWorks": {
+    "heading": "ご利用方法",
+    "steps": [
+      {
+        "title": "選ぶ",
+        "body": "現在のハウスコレクションからブルームを選びます。"
+      },
+      {
+        "title": "書く",
+        "body": "プライベートメッセージ。公開されません。"
+      },
+      {
+        "title": "送る",
+        "body": "$25。プライベートに届けられます。永遠に保存されます。"
+      }
+    ]
+  },
+  "cityOrigins": {
+    "heading": "五つの都市。一つのハウス。",
+    "cities": [
+      { "code": "LON", "name": "ロンドン" },
+      { "code": "DXB", "name": "ドバイ" },
+      { "code": "MIL", "name": "ミラノ" },
+      { "code": "SEL", "name": "ソウル" },
+      { "code": "TYO", "name": "東京" }
+    ]
+  },
+  "finalCta": {
+    "statement": "残るものを、送ってください。",
+    "cta": "ブルームを探す"
+  },
+  "footer": {
+    "tagline": "コードの中に生きる花。",
+    "cities": "ロンドン · ドバイ · ミラノ · ソウル · 東京",
+    "legal": {
+      "privacy": "プライバシー",
+      "terms": "利用規約",
+      "rights": "全著作権所有。"
+    }
+  },
+  "languages": {
+    "en": "English",
+    "ar": "العربية",
+    "it": "Italiano",
+    "ko": "한국어",
+    "ja": "日本語"
+  },
+  "placeholderPage": {
+    "coming": "近日公開。",
+    "back": "ホームに戻る"
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "nav": {
+    "gallery": "GALLERIA",
+    "cities": "CITTÀ",
+    "vault": "VAULT",
+    "about": "ABOUT",
+    "login": "ACCEDI",
+    "menu": "MENU",
+    "close": "CHIUDI"
+  },
+  "hero": {
+    "tagline": "Un fiore che vive nel codice.",
+    "body": "Invia un bloom al vault privato di qualcuno.\nNessun social. Nessun feed.\nSolo un gesto silenzioso e bellissimo.",
+    "cta": "INVIA UN BLOOM"
+  },
+  "cityStrip": {
+    "cities": ["LONDON", "DUBAI", "MILANO", "SEOUL", "TOKYO"],
+    "codes": ["LON", "DXB", "MIL", "SEL", "TYO"]
+  },
+  "manifesto": {
+    "line1": "NON PER IL VASO.",
+    "line2": "PER IL VAULT."
+  },
+  "permanence": {
+    "label": "Un Bloom conservato",
+    "metadata": {
+      "title": "BLACK CALLA",
+      "city": "LON / 004",
+      "edition": "EDITION 018 / 250",
+      "status": "CONSERVATO PER SEMPRE."
+    }
+  },
+  "howItWorks": {
+    "heading": "COME FUNZIONA",
+    "steps": [
+      {
+        "title": "SCEGLI",
+        "body": "Un Bloom dalla collezione House corrente."
+      },
+      {
+        "title": "SCRIVI",
+        "body": "Un messaggio privato. Niente di pubblico."
+      },
+      {
+        "title": "INVIA",
+        "body": "$25. Consegnato privatamente. Conservato per sempre."
+      }
+    ]
+  },
+  "cityOrigins": {
+    "heading": "Cinque città. Una casa.",
+    "cities": [
+      { "code": "LON", "name": "London" },
+      { "code": "DXB", "name": "Dubai" },
+      { "code": "MIL", "name": "Milano" },
+      { "code": "SEL", "name": "Seoul" },
+      { "code": "TYO", "name": "Tokyo" }
+    ]
+  },
+  "finalCta": {
+    "statement": "INVIA QUALCOSA CHE RIMANE.",
+    "cta": "ESPLORA I BLOOM"
+  },
+  "footer": {
+    "tagline": "Un fiore che vive nel codice.",
+    "cities": "London · Dubai · Milano · Seoul · Tokyo",
+    "legal": {
+      "privacy": "Privacy",
+      "terms": "Termini",
+      "rights": "Tutti i diritti riservati."
+    }
+  },
+  "languages": {
+    "en": "English",
+    "ar": "العربية",
+    "it": "Italiano",
+    "ko": "한국어",
+    "ja": "日本語"
+  },
+  "placeholderPage": {
+    "coming": "Prossimamente.",
+    "back": "Torna alla home"
+  }
+}
