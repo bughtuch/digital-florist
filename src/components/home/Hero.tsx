@@ -5,27 +5,24 @@ type Props = { locale: string };
 
 export default function Hero({ locale }: Props) {
   const t = useTranslations('hero');
-
-  // Split newlines from the body text
   const bodyLines = t('body').split('\n');
 
   return (
     <section
       aria-label="Hero"
-      className="relative flex min-h-svh flex-col items-stretch pt-16"
+      className="relative flex min-h-svh flex-col pt-16"
     >
-      <div className="mx-auto flex w-full max-w-[1400px] flex-1 flex-col px-6 py-20 md:flex-row md:items-center md:gap-16 md:px-10 md:py-28 lg:px-16">
+      {/* Full-bleed two-column container — no max-width cap so artwork reaches the viewport edge */}
+      <div className="flex flex-1 flex-col md:flex-row md:items-stretch">
 
-        {/* Text column */}
-        <div className="flex flex-col justify-center md:w-1/2 md:max-w-[560px]">
+        {/* LEFT — text composition */}
+        <div className="flex flex-col justify-center px-6 pb-10 pt-16 md:w-[44%] md:max-w-[640px] md:px-10 md:py-28 lg:px-16">
 
-          {/* Tagline — large display type */}
-          <h1 className="font-display text-[clamp(2.6rem,6vw,5.5rem)] font-light leading-[1.05] tracking-[-0.01em] text-df-text">
+          <h1 className="font-display text-[clamp(2.6rem,4.5vw,5.5rem)] font-light leading-[1.05] tracking-[-0.01em] text-df-text">
             {t('tagline')}
           </h1>
 
-          {/* Supporting text */}
-          <p className="mt-8 text-[clamp(0.8rem,1.2vw,0.95rem)] leading-[1.8] tracking-[0.04em] text-df-text">
+          <p className="mt-8 text-[clamp(0.8rem,1.1vw,0.95rem)] leading-[1.8] tracking-[0.04em] text-df-text">
             {bodyLines.map((line, i) => (
               <span key={i} className={i > 0 ? 'block mt-1' : undefined}>
                 {line}
@@ -33,7 +30,6 @@ export default function Hero({ locale }: Props) {
             ))}
           </p>
 
-          {/* CTA — square-bordered, not rounded */}
           <div className="mt-12">
             <Link
               href={`/${locale}/gallery`}
@@ -50,28 +46,22 @@ export default function Hero({ locale }: Props) {
           </div>
         </div>
 
-        {/* Artwork placeholder column */}
+        {/* RIGHT — artwork / media slot
+            Desktop: fills full column height flush to the right viewport edge.
+            Mobile: portrait rectangle that partially overlaps the text above.
+            When artwork arrives: add <Image fill src={url} alt={title} className="object-cover" />
+            and remove the placeholder label. */}
         <div
-          className="relative mt-16 flex items-center justify-center md:mt-0 md:w-1/2"
           aria-hidden="true"
+          className="-mt-10 md:relative md:mt-0 md:flex-1 md:self-stretch"
         >
-          {/* Outer halo ring */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="aspect-square w-[90%] max-w-[520px] rounded-full border border-df-border-subtle opacity-40" />
-          </div>
+          <div className="relative aspect-[3/4] w-full overflow-hidden bg-df-surface md:absolute md:inset-0 md:aspect-auto">
+            {/* Artwork lands here — still image, transparent PNG, WebP, or motion asset */}
 
-          {/* The bloom orb — marks where artwork will live */}
-          <div className="relative z-10 w-[72%] max-w-[420px]">
-            <div className="bloom-orb">
-              {/* Placeholder label — visible until real artwork lands */}
-              <span className="sr-only">Artwork placeholder</span>
-            </div>
+            <p className="absolute bottom-5 right-5 text-[8px] tracking-[0.18em] text-df-faint uppercase md:bottom-8 md:right-8">
+              Artwork · Coming
+            </p>
           </div>
-
-          {/* Future artwork label */}
-          <p className="absolute bottom-0 start-[14%] text-[9px] tracking-[0.14em] text-df-faint uppercase">
-            Artwork · Coming
-          </p>
         </div>
 
       </div>
