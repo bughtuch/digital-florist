@@ -47,12 +47,19 @@ revoke all on public.vault_entries from anon, authenticated;
 -- Verifies the gift recipient_email matches the caller's JWT email.
 -- Idempotent: if the calling user has already claimed this gift, returns ok=true.
 --
+-- Security invariants:
+--   - Revoked tokens (revoked_at IS NOT NULL) are rejected as not_found —
+--     checked at token lookup BEFORE any idempotency branch.
+--   - A null or empty JWT email is rejected as unauthenticated — fail closed.
+--   - Email comparison uses IS DISTINCT FROM to be null-safe.
+--   - The expected recipient email is never exposed in any return value.
+--
 -- Return values:
---   { "ok": true,  "entry_id": "<uuid>" }         — claimed successfully
---   { "error": "unauthenticated" }                — no authenticated user
---   { "error": "not_found" }                      — token or gift not found
---   { "error": "gift_not_ready" }                 — gift not paid / no edition
---   { "error": "wrong_email" }                    — email mismatch
+--   { "ok": true,  "entry_id": "<uuid>" }         — claimed successfully (or idempotent)
+--   { "error": "unauthenticated" }                — no authenticated user or missing email
+--   { "error": "not_found" }                      — token not found, revoked, or gift missing
+--   { "error": "gift_not_ready" }                 — gift not paid / no edition allocated
+--   { "error": "wrong_email" }                    — email does not match recipient
 --   { "error": "already_claimed" }                — claimed by a different user
 -- ——————————————————————————————————————
 
@@ -69,7 +76,10 @@ declare
   v_gift       gifts%rowtype;
   v_entry_id   uuid;
 begin
-  -- 1. Identify the authenticated caller
+  -- 1. Identify the authenticated caller.
+  -- Both uid and email must be present — fail closed if either is missing.
+  -- Using auth.jwt() ->> 'email' rather than auth.users to avoid an extra
+  -- round-trip; Supabase always embeds the confirmed email in the JWT.
   v_user_id    := auth.uid();
   v_user_email := lower(trim((auth.jwt() ->> 'email')::text));
 
@@ -77,10 +87,18 @@ begin
     return jsonb_build_object('error', 'unauthenticated');
   end if;
 
-  -- 2. Look up and lock the reveal token
+  -- Email must be non-null and non-empty; a missing email must never claim.
+  if v_user_email is null or v_user_email = '' then
+    return jsonb_build_object('error', 'unauthenticated');
+  end if;
+
+  -- 2. Look up and lock the reveal token.
+  -- Revoked tokens (revoked_at IS NOT NULL) are treated as not found —
+  -- they must never be usable for claiming, even idempotently.
   select * into v_token
   from reveal_tokens
   where token_hash = p_token_hash
+    and revoked_at  is null
   for update;
 
   if not found then
@@ -118,8 +136,14 @@ begin
     return jsonb_build_object('error', 'gift_not_ready');
   end if;
 
-  -- 6. Email verification — recipient must match the signed-in user
-  if lower(trim(v_gift.recipient_email)) <> v_user_email then
+  -- 6. Email verification — recipient must exactly match the signed-in user.
+  -- IS DISTINCT FROM is null-safe: NULL IS DISTINCT FROM 'x' = TRUE,
+  -- so a null recipient_email (should never occur due to NOT NULL constraint,
+  -- but belt-and-suspenders) also fails here correctly.
+  if v_user_email is null
+     or v_user_email = ''
+     or lower(trim(v_gift.recipient_email)) is distinct from v_user_email
+  then
     return jsonb_build_object('error', 'wrong_email');
   end if;
 
