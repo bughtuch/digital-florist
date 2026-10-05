@@ -173,16 +173,23 @@ create policy "studio_admin_delete_translations"
 -- tampering with provenance data, regardless of how an update arrives.
 --
 -- On INSERT:
+--   - price_cents must be 2500 and currency must be 'USD' (House price is fixed)
 --   - edition_total must be positive
 --   - edition_sold cannot exceed edition_total
+--   - status/published_at must be consistent:
+--       draft     → published_at must be NULL
+--       available → published_at must NOT be NULL
+--       archived  → published_at must NOT be NULL
 --
 -- On UPDATE:
+--   - price_cents must be 2500 and currency must be 'USD' (House price is fixed)
 --   - edition_sold cannot exceed edition_total
 --   - published_at cannot be cleared once set
 --   - archived Bloom cannot be reopened (archived → any other status)
 --   - published Bloom cannot return to draft (available → draft)
 --   - available → archived is the only allowed "forward" transition
 --     (used by the finalize_paid_gift auto-archive path)
+--   - status/published_at must be consistent (same rules as INSERT)
 --   - Once published (published_at IS NOT NULL), these identity fields
 --     are immutable: slug, city_id, archive_code, edition_total, year
 --
@@ -205,6 +212,16 @@ begin
 
   -- ── INSERT ────────────────────────────────────────────────────
   if tg_op = 'INSERT' then
+
+    -- House price is permanent and fixed at $25 USD
+    if new.price_cents != 2500 then
+      raise exception 'price_cents must be 2500 — Digital Florist has one House price ($25 USD)';
+    end if;
+    if new.currency != 'USD' then
+      raise exception 'currency must be USD — Digital Florist has one House price ($25 USD)';
+    end if;
+
+    -- Edition invariants
     if new.edition_total <= 0 then
       raise exception 'edition_total must be greater than zero';
     end if;
@@ -212,11 +229,29 @@ begin
       raise exception 'edition_sold (%) cannot exceed edition_total (%)',
         new.edition_sold, new.edition_total;
     end if;
+
+    -- status / published_at must be consistent
+    if new.status = 'draft' and new.published_at is not null then
+      raise exception 'A draft Bloom must have published_at = NULL';
+    end if;
+    if new.status in ('available', 'archived') and new.published_at is null then
+      raise exception 'A % Bloom must have published_at set', new.status;
+    end if;
+
     return new;
   end if;
 
   -- ── UPDATE ────────────────────────────────────────────────────
   if tg_op = 'UPDATE' then
+
+    -- House price is permanent and fixed at $25 USD
+    if new.price_cents != 2500 then
+      raise exception 'price_cents must be 2500 — Digital Florist has one House price ($25 USD)';
+    end if;
+    if new.currency != 'USD' then
+      raise exception 'currency must be USD — Digital Florist has one House price ($25 USD)';
+    end if;
+
     -- edition_sold cannot exceed edition_total
     if new.edition_sold > new.edition_total then
       raise exception 'edition_sold (%) cannot exceed edition_total (%)',
@@ -236,6 +271,14 @@ begin
     -- published Bloom cannot return to draft
     if old.status = 'available' and new.status = 'draft' then
       raise exception 'A published Bloom cannot return to draft';
+    end if;
+
+    -- status / published_at must be consistent
+    if new.status = 'draft' and new.published_at is not null then
+      raise exception 'A draft Bloom must have published_at = NULL';
+    end if;
+    if new.status in ('available', 'archived') and new.published_at is null then
+      raise exception 'A % Bloom must have published_at set', new.status;
     end if;
 
     -- Immutable identity fields — locked once published
@@ -364,6 +407,7 @@ create policy "studio_admin_insert_activity"
 -- Stores final public-facing still and motion assets.
 -- Public read: yes (CDN-served).
 -- Write: Studio admins only.
+-- Size limit: 200 MB (covers motion assets; application validates still ≤ 50 MB).
 -- ——————————————————————————————————————
 
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
@@ -371,7 +415,7 @@ values (
   'bloom-public',
   'bloom-public',
   true,
-  52428800,  -- 50 MB
+  209715200,  -- 200 MB (motion assets up to 200 MB)
   array['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/avif', 'video/mp4', 'video/webm']
 )
 on conflict (id) do nothing;
