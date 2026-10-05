@@ -1,20 +1,4 @@
 // /[locale]/reveal/[token]
-//
-// The private Bloom reveal experience.
-// Accessible only via a valid reveal token — never publicly linked.
-//
-// Security model:
-//   - Token is SHA-256 hashed and looked up in reveal_tokens via admin client.
-//   - Raw token never stored; hash stored in DB.
-//   - Gift must be status = paid with edition_number set.
-//   - Revoked tokens show 404 (no information leakage about revocation reason).
-//   - Private fields (emails, Stripe IDs, gift UUID, token hash) never passed to UI.
-//   - Page is noindex / nofollow / noarchive.
-//
-// Dev preview path:
-//   - Tokens prefixed 'dev_' are accepted only when NODE_ENV !== 'production'.
-//   - Dev tokens are HMAC-signed with REVEAL_DEV_SECRET.
-//   - Dev tokens are self-contained — no DB read required.
 
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
@@ -55,7 +39,6 @@ export default async function RevealPage({ params }: Props) {
     const payload = verifyDevPreviewToken(token, devSecret);
     if (!payload) notFound();
 
-    // Fetch bloom display data via public client (bloom data is publicly readable)
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? '';
     const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ?? '';
     const supabase = createServerClient(supabaseUrl, supabaseKey, {
@@ -64,7 +47,7 @@ export default async function RevealPage({ params }: Props) {
 
     const { data: bloom } = await supabase
       .from('blooms')
-      .select('title, slug, archive_code, edition_total, still_asset_url, material_note, year, city_id')
+      .select('title, slug, archive_code, edition_total, still_asset_url, motion_asset_url, material_note, year, city_id')
       .eq('slug', payload.slug)
       .maybeSingle();
 
@@ -90,6 +73,7 @@ export default async function RevealPage({ params }: Props) {
       materialNote: bloom?.material_note ?? null,
       year: bloom?.year ?? 2026,
       stillAssetUrl: bloom?.still_asset_url ?? null,
+      motionAssetUrl: bloom?.motion_asset_url ?? null,
       bloomSlug: payload.slug,
       locale,
       claimToken: token,
@@ -104,7 +88,6 @@ export default async function RevealPage({ params }: Props) {
   const tokenHash = hashRevealToken(token);
   const supabase = createAdminClient();
 
-  // Step 1 — Look up reveal token (admin client bypasses RLS)
   const { data: rt } = await supabase
     .from('reveal_tokens')
     .select('id, gift_id, open_count, revoked_at')
@@ -116,7 +99,6 @@ export default async function RevealPage({ params }: Props) {
 
   const isFirstOpen = rt.open_count === 0;
 
-  // Step 2 — Verify gift is paid with an allocated edition
   const { data: gift } = await supabase
     .from('gifts')
     .select('status, edition_number, sender_name, private_message, bloom_id')
@@ -126,24 +108,20 @@ export default async function RevealPage({ params }: Props) {
   if (!gift) notFound();
   if (gift.status !== 'paid' || !gift.edition_number) notFound();
 
-  // Step 3 — Fetch bloom display data
   const { data: bloom } = await supabase
     .from('blooms')
-    .select('title, slug, archive_code, edition_total, still_asset_url, material_note, year, city_id')
+    .select('title, slug, archive_code, edition_total, still_asset_url, motion_asset_url, material_note, year, city_id')
     .eq('id', gift.bloom_id)
     .maybeSingle();
 
   if (!bloom) notFound();
 
-  // Step 4 — Fetch city display data
   const { data: city } = await supabase
     .from('cities')
     .select('name, code')
     .eq('id', bloom.city_id)
     .maybeSingle();
 
-  // Step 5 — Track this open (non-blocking, non-fatal)
-  // Fire-and-forget: don't await — avoids blocking the render
   supabase
     .rpc('track_reveal_open', { p_token_hash: tokenHash })
     .then(({ error }) => {
@@ -152,7 +130,6 @@ export default async function RevealPage({ params }: Props) {
       }
     });
 
-  // Build display data — private fields intentionally excluded
   const revealData: RevealData = {
     senderName: gift.sender_name,
     privateMessage: gift.private_message,
@@ -165,9 +142,10 @@ export default async function RevealPage({ params }: Props) {
     materialNote: bloom.material_note ?? null,
     year: bloom.year,
     stillAssetUrl: bloom.still_asset_url ?? null,
+    motionAssetUrl: bloom.motion_asset_url ?? null,
     bloomSlug: bloom.slug,
     locale,
-    claimToken: token, // raw token passed to claim URL — never logged
+    claimToken: token,
     isFirstOpen,
   };
 

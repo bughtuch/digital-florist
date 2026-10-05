@@ -1,21 +1,36 @@
+// src/components/home/Hero.tsx
+//
+// Homepage hero — left: editorial copy, right: featured Bloom artwork.
+// Featured bloom is fetched server-side and passed as prop.
+// When no bloom is available, the right side shows a quiet empty state.
+
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
+import type { BloomWithRelations } from '@/types';
+import BloomMedia from '@/components/bloom/BloomMedia';
 
-type Props = { locale: string };
+type Props = {
+  locale: string;
+  featuredBloom: BloomWithRelations | null;
+};
 
-export default function Hero({ locale }: Props) {
+export default function Hero({ locale, featuredBloom }: Props) {
   const t = useTranslations('hero');
   const bodyLines = t('body').split('\n');
+
+  const artAlt = featuredBloom
+    ? `${featuredBloom.title} — Digital Florist, ${featuredBloom.city.name}`
+    : '';
 
   return (
     <section
       aria-label="Hero"
       className="relative flex min-h-svh flex-col pt-16"
     >
-      {/* Full-bleed two-column container — no max-width cap so artwork reaches the viewport edge */}
+      {/* Full-bleed two-column container */}
       <div className="flex flex-1 flex-col md:flex-row md:items-stretch">
 
-        {/* LEFT — text composition */}
+        {/* LEFT — editorial text composition */}
         <div className="flex flex-col justify-center px-6 pb-10 pt-16 md:w-[44%] md:max-w-[640px] md:px-10 md:py-28 lg:px-16">
 
           <h1 className="font-display text-[clamp(2.6rem,4.5vw,5.5rem)] font-light leading-[1.05] tracking-[-0.01em] text-df-text">
@@ -46,21 +61,30 @@ export default function Hero({ locale }: Props) {
           </div>
         </div>
 
-        {/* RIGHT — artwork / media slot
-            Desktop: fills full column height flush to the right viewport edge.
-            Mobile: portrait rectangle that partially overlaps the text above.
-            When artwork arrives: add <Image fill src={url} alt={title} className="object-cover" />
-            and remove the placeholder label. */}
-        <div
-          aria-hidden="true"
-          className="-mt-10 md:relative md:mt-0 md:flex-1 md:self-stretch"
-        >
-          <div className="relative aspect-[3/4] w-full overflow-hidden bg-df-surface md:absolute md:inset-0 md:aspect-auto">
-            {/* Artwork lands here — still image, transparent PNG, WebP, or motion asset */}
+        {/* RIGHT — artwork stage
+            Desktop: fills full column height, bleeds to right viewport edge.
+            Mobile: portrait rectangle that overlaps the text composition above. */}
+        <div className="-mt-10 md:relative md:mt-0 md:flex-1 md:self-stretch">
+          <div className="relative aspect-[3/4] w-full overflow-hidden md:absolute md:inset-0 md:aspect-auto">
 
-            <p className="absolute bottom-5 right-5 text-[8px] tracking-[0.18em] text-df-faint uppercase md:bottom-8 md:right-8">
-              Artwork · Coming
-            </p>
+            {featuredBloom ? (
+              <BloomMedia
+                stillUrl={featuredBloom.still_asset_url}
+                motionUrl={featuredBloom.motion_asset_url}
+                alt={artAlt}
+                priority
+                mode="hero"
+                className="absolute inset-0"
+              />
+            ) : (
+              /* Empty state — quiet, intentional */
+              <div className="absolute inset-0 bg-df-surface flex items-end justify-end p-5 md:p-8">
+                <p className="text-[8px] tracking-[0.18em] text-df-faint uppercase">
+                  HOUSE ARTWORK
+                </p>
+              </div>
+            )}
+
           </div>
         </div>
 

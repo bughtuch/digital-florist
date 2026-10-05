@@ -6,7 +6,8 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import BloomArtwork from '@/components/bloom/BloomArtwork';
 import BloomInfo from '@/components/bloom/BloomInfo';
-import { getBloomBySlug } from '@/lib/data/blooms';
+import { getBloomBySlug, getBloomTranslations } from '@/lib/data/blooms';
+import { localizeBloom } from '@/lib/data/translations';
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
@@ -19,12 +20,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const t = await getTranslations({ locale, namespace: 'bloom' });
 
+  const translationsMap = await getBloomTranslations(locale, [bloom.id]);
+  const translation = translationsMap.get(bloom.id) ?? null;
+  const localized = localizeBloom(bloom, translation);
+
+  const description = localized.house_line ?? `${localized.title}. ${bloom.city.name}. ${t('price')}.`;
+
   return {
-    title: `${bloom.title} — DIGITAL FLORIST`,
-    description: bloom.house_line ?? `${bloom.title}. ${bloom.city.name}. ${t('price')}.`,
+    title: `${localized.title} — DIGITAL FLORIST`,
+    description,
     openGraph: {
-      title: `${bloom.title} — DIGITAL FLORIST`,
-      description: bloom.house_line ?? undefined,
+      title: `${localized.title} — DIGITAL FLORIST`,
+      description: localized.house_line ?? undefined,
+      ...(bloom.still_asset_url ? { images: [{ url: bloom.still_asset_url }] } : {}),
     },
   };
 }
@@ -36,7 +44,6 @@ export default async function BloomPage({ params }: Props) {
   try {
     bloom = await getBloomBySlug(slug);
   } catch {
-    // Supabase unavailable — show error rather than crashing
     return <BloomErrorState locale={locale} />;
   }
 
@@ -44,12 +51,15 @@ export default async function BloomPage({ params }: Props) {
 
   const t = await getTranslations({ locale, namespace: 'bloom' });
 
+  const translationsMap = await getBloomTranslations(locale, [bloom.id]);
+  const translation = translationsMap.get(bloom.id) ?? null;
+  const localized = localizeBloom(bloom, translation);
+
   return (
     <div className="flex min-h-svh flex-col bg-df-black">
       <Header locale={locale} />
 
       <main id="main-content" className="flex-1 pt-16">
-        {/* Back link */}
         <div className="mx-auto max-w-[1400px] px-6 pt-10 md:px-10 lg:px-16">
           <Link
             href={`/${locale}/gallery`}
@@ -59,18 +69,21 @@ export default async function BloomPage({ params }: Props) {
           </Link>
         </div>
 
-        {/* Main bloom layout */}
         <div className="mx-auto max-w-[1400px] px-6 py-12 md:px-10 lg:px-16">
           <div className="flex flex-col gap-12 md:flex-row md:gap-16 lg:gap-24">
 
-            {/* Artwork — 2/3 width on desktop */}
             <div className="w-full md:w-[62%] lg:w-[65%]">
               <BloomArtwork bloom={bloom} />
             </div>
 
-            {/* Info panel — sticky on desktop */}
             <div className="w-full md:w-[38%] lg:w-[35%] md:sticky md:top-24 md:self-start">
-              <BloomInfo bloom={bloom} locale={locale} />
+              <BloomInfo
+                bloom={bloom}
+                locale={locale}
+                localizedTitle={localized.title}
+                localizedHouseLine={localized.house_line}
+                localizedMaterialNote={localized.material_note}
+              />
             </div>
 
           </div>

@@ -4,7 +4,8 @@ import { getTranslations } from 'next-intl/server';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import GalleryClient from '@/components/gallery/GalleryClient';
-import { getAllBlooms, getAllCollections } from '@/lib/data/blooms';
+import { getAllBlooms, getAllCollections, getBloomTranslations } from '@/lib/data/blooms';
+import type { DbBloomTranslation } from '@/types';
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -35,12 +36,15 @@ export default async function GalleryPage({ params, searchParams }: Props) {
   const initialCollection =
     collection && validSlugs.has(collection) ? collection : null;
 
+  const translationsMap = await getBloomTranslations(locale, blooms.map((b) => b.id));
+  // Convert Map → plain Record for client component serialization
+  const translations: Record<string, DbBloomTranslation> = Object.fromEntries(translationsMap);
+
   return (
     <div className="flex min-h-svh flex-col bg-df-black">
       <Header locale={locale} />
 
       <main id="main-content" className="flex-1 pt-16">
-        {/* Gallery header */}
         <div className="mx-auto max-w-[1400px] px-6 pt-20 pb-12 md:px-10 lg:px-16">
           <p className="text-[9px] tracking-[0.2em] text-df-faint uppercase mb-4">
             {t('subline')}
@@ -49,13 +53,13 @@ export default async function GalleryPage({ params, searchParams }: Props) {
             {t('heading')}
           </h1>
 
-          {/* Filters + grid — client island for instant filtering */}
           <Suspense fallback={<GalleryFallback />}>
             <GalleryClient
               blooms={blooms}
               collections={collections}
               locale={locale}
               initialCollection={initialCollection}
+              translations={translations}
             />
           </Suspense>
         </div>
@@ -72,7 +76,7 @@ function GalleryFallback() {
       {Array.from({ length: 6 }).map((_, i) => (
         <div
           key={i}
-          className="col-span-12 md:col-span-6 aspect-portrait bg-df-surface animate-pulse"
+          className="col-span-12 md:col-span-6 aspect-portrait bg-df-surface"
         />
       ))}
     </div>

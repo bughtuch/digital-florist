@@ -3,7 +3,8 @@ import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import Header from '@/components/layout/Header';
 import SendFlowClient from '@/components/send/SendFlowClient';
-import { getBloomBySlug, getEditionDisplay } from '@/lib/data/blooms';
+import { getBloomBySlug } from '@/lib/data/blooms';
+import { getEditionDisplay } from '@/lib/data/edition';
 import type { SendBloomData } from '@/types';
 
 type Props = {

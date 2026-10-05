@@ -9,6 +9,7 @@ import Permanence from '@/components/home/Permanence';
 import HowItWorks from '@/components/home/HowItWorks';
 import CityOrigins from '@/components/home/CityOrigins';
 import FinalCta from '@/components/home/FinalCta';
+import { getFeaturedBloom } from '@/lib/data/blooms';
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -32,11 +33,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function HomePage({ params }: Props) {
   const { locale } = await params;
 
+  const featuredBloom = await getFeaturedBloom().catch(() => null);
+
   return (
     <div className="flex min-h-svh flex-col bg-df-black">
       <Header locale={locale} />
       <main id="main-content">
-        <Hero locale={locale} />
+        <Hero locale={locale} featuredBloom={featuredBloom} />
         <CityStrip />
         <Manifesto />
         <Permanence />

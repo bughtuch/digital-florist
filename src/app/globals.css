@@ -258,3 +258,30 @@ body {
     }
   }
 }
+
+/* ——————————————————————————————————————
+   BloomMedia — motion/still layering
+   Video sits above still. Under reduced-motion CSS hides the video,
+   letting the still image show through without JS re-render.
+—————————————————————————————————————— */
+@layer components {
+  .bloom-video {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+
+  /* Still shown at base; video overlays when active */
+  .bloom-still-under-video {
+    z-index: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bloom-video {
+      display: none;
+    }
+    .bloom-still-under-video {
+      z-index: auto;
+    }
+  }
+}

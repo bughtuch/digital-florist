@@ -1,9 +1,9 @@
+// src/components/gallery/BloomCard.tsx
+
 import Link from 'next/link';
 import type { BloomWithRelations } from '@/types';
-import BloomArtPlaceholder from './BloomArtPlaceholder';
+import BloomMedia from '@/components/bloom/BloomMedia';
 
-// Grid layout pattern for editorial rhythm.
-// All class strings are hardcoded so Tailwind includes them.
 const LAYOUT = [
   { grid: 'md:col-span-8',  aspect: 'aspect-portrait' },
   { grid: 'md:col-span-4',  aspect: 'aspect-tall'     },
@@ -26,28 +26,32 @@ type Props = {
   bloom: BloomWithRelations;
   index: number;
   locale: string;
+  localizedTitle?: string;
 };
 
-export default function BloomCard({ bloom, index, locale }: Props) {
+export default function BloomCard({ bloom, index, locale, localizedTitle }: Props) {
   const layout = LAYOUT[index % LAYOUT.length];
-  const isArchived = bloom.edition_sold >= bloom.edition_total;
+  const isArchived = bloom.status === 'archived' || bloom.edition_sold >= bloom.edition_total;
+  const title = localizedTitle || bloom.title;
 
   return (
     <article className={`col-span-12 ${layout.grid}`}>
       <Link
         href={`/${locale}/bloom/${bloom.slug}`}
         className="group block focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-df-text"
-        aria-label={`${bloom.title} — ${bloom.city.name} — $25`}
+        aria-label={`${title} — ${bloom.city.name}${isArchived ? ' — Archived' : ' — $25'}`}
       >
-        {/* Artwork area */}
+        {/* Artwork area — still only in gallery (no motion preload) */}
         <div className={`relative overflow-hidden ${layout.aspect}`}>
-          <BloomArtPlaceholder
-            slug={bloom.slug}
-            title={bloom.title}
+          <BloomMedia
+            stillUrl={bloom.still_asset_url}
+            mode="gallery"
+            alt={`${title} — Digital Florist, ${bloom.city.name}`}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="absolute inset-0"
           />
 
-          {/* Desktop hover overlay — hidden on mobile */}
+          {/* Desktop hover overlay */}
           <div
             className="
               absolute inset-0 hidden md:flex flex-col justify-end p-7
@@ -59,7 +63,7 @@ export default function BloomCard({ bloom, index, locale }: Props) {
             aria-hidden="true"
           >
             <p className="text-[11px] tracking-[0.18em] text-df-text uppercase mb-1">
-              {bloom.title}
+              {title}
             </p>
             <p className="text-[10px] tracking-[0.12em] text-df-muted">
               {bloom.city.name}
@@ -73,7 +77,7 @@ export default function BloomCard({ bloom, index, locale }: Props) {
         {/* Mobile info — always visible */}
         <div className="mt-3 md:hidden">
           <p className="text-[11px] tracking-[0.16em] text-df-text uppercase">
-            {bloom.title}
+            {title}
           </p>
           <p className="mt-1 text-[10px] tracking-[0.1em] text-df-muted">
             {bloom.city.name}

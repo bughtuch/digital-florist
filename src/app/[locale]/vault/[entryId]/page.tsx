@@ -1,8 +1,4 @@
 // /[locale]/vault/[entryId]
-//
-// Private vault entry — the permanent home for a claimed Bloom.
-// Ownership is enforced server-side via get_my_vault_entry() which checks auth.uid().
-// Unauthenticated visitors and wrong-user requests both receive notFound().
 
 import type { Metadata } from 'next';
 import Link from 'next/link';
@@ -11,6 +7,7 @@ import { getTranslations } from 'next-intl/server';
 import { createClient } from '@/lib/supabase/server';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import BloomMedia from '@/components/bloom/BloomMedia';
 
 export const dynamic = 'force-dynamic';
 
@@ -68,6 +65,15 @@ export default async function VaultEntryPage({ params }: Props) {
 
   const entry = rows[0];
 
+  // Fetch motion URL separately — get_my_vault_entry doesn't include it
+  const { data: bloomRow } = await supabase
+    .from('blooms')
+    .select('motion_asset_url')
+    .eq('id', entry.bloom_id)
+    .maybeSingle();
+
+  const motionAssetUrl = bloomRow?.motion_asset_url ?? null;
+
   const editionLabel = `${String(entry.edition_number).padStart(3, '0')} / ${String(entry.edition_total).padStart(3, '0')}`;
   const claimedDate = new Intl.DateTimeFormat(locale === 'ar' ? 'ar' : locale, {
     year: 'numeric',
@@ -81,7 +87,6 @@ export default async function VaultEntryPage({ params }: Props) {
 
       <main className="mx-auto w-full max-w-[1400px] px-6 pt-28 pb-24 md:px-10 lg:px-16">
 
-        {/* Back link */}
         <div className="mb-12">
           <Link
             href={`/${locale}/vault`}
@@ -93,33 +98,27 @@ export default async function VaultEntryPage({ params }: Props) {
 
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_1fr] lg:gap-20 xl:grid-cols-[55fr_45fr]">
 
-          {/* Artwork */}
-          <div className="relative aspect-[3/4] w-full overflow-hidden bg-df-surface">
-            {entry.still_asset_url ? (
-              <img
-                src={entry.still_asset_url}
-                alt={entry.bloom_title}
-                className="h-full w-full object-cover"
-              />
-            ) : (
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-[8px] tracking-[0.2em] text-df-faint uppercase">
-                  DIGITAL FLORIST
-                </span>
-              </div>
-            )}
+          {/* Artwork — motion if available */}
+          <div className="relative aspect-[3/4] w-full overflow-hidden">
+            <BloomMedia
+              stillUrl={entry.still_asset_url}
+              motionUrl={motionAssetUrl}
+              alt={`${entry.bloom_title} — Digital Florist`}
+              priority
+              mode="vault"
+              sizes="(max-width: 1024px) 100vw, 55vw"
+              className="absolute inset-0"
+            />
           </div>
 
           {/* Details */}
           <div className="flex flex-col justify-between py-2">
 
             <div>
-              {/* House mark */}
               <p className="mb-8 text-[8px] tracking-[0.3em] text-df-faint uppercase">
                 DIGITAL FLORIST HOUSE
               </p>
 
-              {/* From + message */}
               <div className="mb-12 border-l border-df-border pl-5">
                 <p className="mb-3 text-[9px] tracking-[0.18em] text-df-faint uppercase">
                   FROM {entry.sender_name}
@@ -129,7 +128,6 @@ export default async function VaultEntryPage({ params }: Props) {
                 </p>
               </div>
 
-              {/* Bloom title */}
               <h1 className="font-display text-[clamp(2.5rem,5vw,4rem)] font-light leading-[1] tracking-[0.02em] text-df-text mb-3">
                 {entry.bloom_title}
               </h1>
@@ -138,7 +136,6 @@ export default async function VaultEntryPage({ params }: Props) {
                 {entry.city_code} · DIGITAL FLORIST HOUSE
               </p>
 
-              {/* Metadata grid */}
               <dl className="grid grid-cols-2 gap-x-8 gap-y-5 border-t border-df-border pt-8">
                 <MetaItem label={t('edition')} value={editionLabel} />
                 <MetaItem label="CITY" value={`${entry.city_name} · ${entry.city_code}`} />
@@ -150,7 +147,6 @@ export default async function VaultEntryPage({ params }: Props) {
               </dl>
             </div>
 
-            {/* Kept forever mark + receipt link */}
             <div className="mt-12 flex items-center justify-between">
               <p className="text-[9px] tracking-[0.22em] text-df-faint uppercase">
                 KEPT FOREVER ·

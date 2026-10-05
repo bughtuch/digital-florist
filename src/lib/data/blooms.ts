@@ -2,7 +2,7 @@
 // Falls back to seed data when Supabase is not configured.
 // In production (env vars present), uses Supabase and does NOT fake data on failure.
 
-import type { BloomWithRelations, DbCollection } from '@/types';
+import type { BloomWithRelations, DbCollection, DbBloomTranslation } from '@/types';
 import { SEED_BLOOMS, SEED_COLLECTIONS } from './seed';
 
 const BLOOM_SELECT = `
@@ -81,19 +81,69 @@ export async function getAllCollections(): Promise<DbCollection[]> {
 }
 
 // ——————————————————————————————————————
-// Edition display helper
-// "edition_sold = 18, edition_total = 250" → "019 / 250"
+// getFeaturedBloom
+// Returns the featured Bloom for the homepage hero.
+// Prefers: featured=true, status=available, published.
+// Falls back to first available published Bloom.
 // ——————————————————————————————————————
-export function getEditionDisplay(
-  sold: number,
-  total: number,
-): { isArchived: boolean; label: string } {
-  if (sold >= total) {
-    return { isArchived: true, label: 'ARCHIVED' };
-  }
-  const next = sold + 1;
-  return {
-    isArchived: false,
-    label: `${String(next).padStart(3, '0')} / ${total}`,
-  };
+export async function getFeaturedBloom(): Promise<BloomWithRelations | null> {
+  if (!isSupabaseConfigured()) return null;
+
+  const { createClient } = await import('@/lib/supabase/server');
+  const supabase = await createClient();
+
+  // First: featured + available + published
+  const { data: featured } = await supabase
+    .from('blooms')
+    .select(BLOOM_SELECT)
+    .eq('status', 'available')
+    .not('published_at', 'is', null)
+    .eq('featured', true)
+    .order('display_order', { ascending: true })
+    .limit(1)
+    .maybeSingle();
+
+  if (featured) return featured as BloomWithRelations;
+
+  // Fallback: any available published bloom
+  const { data: fallback } = await supabase
+    .from('blooms')
+    .select(BLOOM_SELECT)
+    .eq('status', 'available')
+    .not('published_at', 'is', null)
+    .order('display_order', { ascending: true })
+    .limit(1)
+    .maybeSingle();
+
+  return (fallback as BloomWithRelations | null);
 }
+
+// ——————————————————————————————————————
+// getBloomTranslations
+// Fetches translations for a set of bloom IDs in a given locale.
+// Returns empty map for English (uses canonical fields).
+// ——————————————————————————————————————
+export async function getBloomTranslations(
+  locale: string,
+  bloomIds: string[],
+): Promise<Map<string, DbBloomTranslation>> {
+  if (!isSupabaseConfigured() || locale === 'en' || bloomIds.length === 0) {
+    return new Map();
+  }
+
+  const { createClient } = await import('@/lib/supabase/server');
+  const supabase = await createClient();
+
+  const { data } = await supabase
+    .from('bloom_translations')
+    .select('id, bloom_id, locale, translated_title, translated_house_line, translated_material_note')
+    .eq('locale', locale)
+    .in('bloom_id', bloomIds);
+
+  const map = new Map<string, DbBloomTranslation>();
+  for (const t of data ?? []) {
+    map.set(t.bloom_id, t as DbBloomTranslation);
+  }
+  return map;
+}
+

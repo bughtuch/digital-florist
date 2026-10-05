@@ -1,15 +1,14 @@
-// /[locale]/cities/[city]
-//
-// City detail — editorial origin page for a single House city.
-// Shows the city's Blooms in the current collection.
+// /[locale]/cities/[city] — City detail, still-only
 
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import { getCityBySlug, getBloomsByCity } from '@/lib/data/archive';
+import { getBloomTranslations } from '@/lib/data/blooms';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import BloomMedia from '@/components/bloom/BloomMedia';
 
 type Props = {
   params: Promise<{ locale: string; city: string }>;
@@ -36,6 +35,7 @@ export default async function CityPage({ params }: Props) {
   const tArchive = await getTranslations({ locale, namespace: 'archive' });
 
   const blooms = await getBloomsByCity(city.id);
+  const translationsMap = await getBloomTranslations(locale, blooms.map((b) => b.id));
 
   return (
     <div className="flex min-h-svh flex-col bg-df-black">
@@ -43,7 +43,6 @@ export default async function CityPage({ params }: Props) {
 
       <main className="mx-auto w-full max-w-[1400px] px-6 pt-32 pb-24 md:px-10 lg:px-16">
 
-        {/* Back link */}
         <div className="mb-12">
           <Link
             href={`/${locale}/archive`}
@@ -53,7 +52,6 @@ export default async function CityPage({ params }: Props) {
           </Link>
         </div>
 
-        {/* City heading */}
         <div className="mb-20 md:mb-28">
           <p className="mb-3 text-[8px] tracking-[0.3em] text-df-faint uppercase select-none">
             {city.code} · {t('houseLabel')}
@@ -68,50 +66,45 @@ export default async function CityPage({ params }: Props) {
           )}
         </div>
 
-        {/* Bloom grid */}
         {blooms.length > 0 ? (
           <div className="grid grid-cols-1 gap-px sm:grid-cols-2 lg:grid-cols-3 bg-df-border">
-            {blooms.map((bloom) => (
-              <Link
-                key={bloom.id}
-                href={`/${locale}/bloom/${bloom.slug}`}
-                className="group block bg-df-black p-6 hover:bg-df-surface transition-colors duration-500"
-              >
-                {/* Artwork */}
-                <div className="relative mb-5 aspect-[3/4] w-full overflow-hidden bg-df-surface">
-                  {bloom.still_asset_url ? (
-                    <img
-                      src={bloom.still_asset_url}
-                      alt={bloom.title}
-                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+            {blooms.map((bloom) => {
+              const tr = translationsMap.get(bloom.id);
+              const title = tr?.translated_title?.trim() || bloom.title;
+              return (
+                <Link
+                  key={bloom.id}
+                  href={`/${locale}/bloom/${bloom.slug}`}
+                  className="group block bg-df-black p-6 hover:bg-df-surface transition-colors duration-500"
+                >
+                  <div className="relative mb-5 aspect-[3/4] w-full overflow-hidden">
+                    <BloomMedia
+                      stillUrl={bloom.still_asset_url}
+                      alt={`${title} — Digital Florist, ${city.name}`}
+                      mode="archive"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="absolute inset-0 transition-transform duration-700 group-hover:scale-[1.02]"
                     />
-                  ) : (
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <span className="text-[8px] tracking-[0.2em] text-df-faint uppercase">
-                        DIGITAL FLORIST
-                      </span>
-                    </div>
-                  )}
-                  {bloom.status === 'archived' && (
-                    <div className="absolute top-3 left-3">
-                      <span className="text-[7px] tracking-[0.2em] text-df-faint uppercase border border-df-border px-2 py-1 bg-df-black">
-                        ARCHIVED
-                      </span>
-                    </div>
-                  )}
-                </div>
+                    {bloom.status === 'archived' && (
+                      <div className="absolute top-3 left-3 z-10">
+                        <span className="text-[7px] tracking-[0.2em] text-df-faint uppercase border border-df-border px-2 py-1 bg-df-black">
+                          ARCHIVED
+                        </span>
+                      </div>
+                    )}
+                  </div>
 
-                {/* Metadata */}
-                <div>
-                  <p className="text-[9px] tracking-[0.2em] text-df-faint uppercase mb-1">
-                    {bloom.archive_code} · {tArchive('editionLabel')} {bloom.edition_total}
-                  </p>
-                  <p className="text-[13px] tracking-[0.08em] text-df-text uppercase">
-                    {bloom.title}
-                  </p>
-                </div>
-              </Link>
-            ))}
+                  <div>
+                    <p className="text-[9px] tracking-[0.2em] text-df-faint uppercase mb-1">
+                      {bloom.archive_code} · {tArchive('editionLabel')} {bloom.edition_total}
+                    </p>
+                    <p className="text-[13px] tracking-[0.08em] text-df-text uppercase">
+                      {title}
+                    </p>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         ) : (
           <div className="py-24 text-center">

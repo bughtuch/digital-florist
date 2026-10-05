@@ -1,11 +1,21 @@
+// src/components/bloom/BloomInfo.tsx
+//
+// Bloom detail info panel.
+// Accepts localized title, house_line, material_note (with English fallback handled by caller).
+
+'use client';
+
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import type { BloomWithRelations } from '@/types';
-import { getEditionDisplay } from '@/lib/data/blooms';
+import { getEditionDisplay } from '@/lib/data/edition';
 
 type Props = {
   bloom: BloomWithRelations;
   locale: string;
+  localizedTitle: string;
+  localizedHouseLine: string | null;
+  localizedMaterialNote: string | null;
 };
 
 function MetaRow({ label, value }: { label: string; value: string }) {
@@ -21,7 +31,13 @@ function MetaRow({ label, value }: { label: string; value: string }) {
   );
 }
 
-export default function BloomInfo({ bloom, locale }: Props) {
+export default function BloomInfo({
+  bloom,
+  locale,
+  localizedTitle,
+  localizedHouseLine,
+  localizedMaterialNote,
+}: Props) {
   const t = useTranslations('bloom');
   const edition = getEditionDisplay(bloom.edition_sold, bloom.edition_total);
   const isArchived = edition.isArchived || bloom.status === 'archived';
@@ -29,19 +45,16 @@ export default function BloomInfo({ bloom, locale }: Props) {
   return (
     <div className="flex flex-col">
 
-      {/* Title */}
       <h1 className="font-display text-[clamp(2rem,3.5vw,3.5rem)] font-light leading-[1.05] tracking-[-0.01em] text-df-text">
-        {bloom.title}
+        {localizedTitle}
       </h1>
 
-      {/* House line */}
-      {bloom.house_line && (
+      {localizedHouseLine && (
         <p className="mt-5 text-[clamp(0.8rem,1.1vw,0.9rem)] leading-[1.8] tracking-[0.04em] text-df-text">
-          {bloom.house_line}
+          {localizedHouseLine}
         </p>
       )}
 
-      {/* City + archive code */}
       <div className="mt-8 pb-6 border-b border-df-border">
         <p className="text-[13px] tracking-[0.1em] text-df-text">
           {bloom.city.name}
@@ -51,7 +64,6 @@ export default function BloomInfo({ bloom, locale }: Props) {
         </p>
       </div>
 
-      {/* Edition */}
       <div className="py-6 border-b border-df-border">
         <p className="text-[9px] tracking-[0.18em] text-df-faint uppercase mb-2">
           {t('edition')}
@@ -61,7 +73,6 @@ export default function BloomInfo({ bloom, locale }: Props) {
         </p>
       </div>
 
-      {/* Price + CTA */}
       <div className="py-8 border-b border-df-border">
         {isArchived ? (
           <div className="flex flex-col gap-3">
@@ -93,12 +104,11 @@ export default function BloomInfo({ bloom, locale }: Props) {
         )}
       </div>
 
-      {/* Provenance metadata */}
       <div className="mt-6">
         <MetaRow label={t('origin')}     value={bloom.city.name} />
         <MetaRow label={t('collection')} value={bloom.collection.name} />
-        {bloom.material_note && (
-          <MetaRow label={t('material')} value={bloom.material_note} />
+        {localizedMaterialNote && (
+          <MetaRow label={t('material')} value={localizedMaterialNote} />
         )}
         <MetaRow label={t('house')} value="Digital Florist" />
         <MetaRow label={t('year')}  value={String(bloom.year)} />

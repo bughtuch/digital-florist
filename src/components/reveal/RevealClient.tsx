@@ -1,15 +1,8 @@
 'use client';
 
-// The animated Bloom reveal experience.
-// Pure display component — all security logic is handled server-side.
-// Animation classes are defined in globals.css (.reveal-*).
-// When isFirstOpen = true, CSS delays sequence the reveal cinematically.
-// When isFirstOpen = false (revisit), everything renders at full opacity immediately.
-
-import Image from 'next/image';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
-import BloomArtPlaceholder from '@/components/gallery/BloomArtPlaceholder';
+import BloomMedia from '@/components/bloom/BloomMedia';
 
 export interface RevealData {
   senderName: string;
@@ -23,6 +16,7 @@ export interface RevealData {
   materialNote: string | null;
   year: number;
   stillAssetUrl: string | null;
+  motionAssetUrl: string | null;
   bloomSlug: string;
   locale: string;
   claimToken: string;
@@ -33,11 +27,10 @@ export interface RevealData {
 export default function RevealClient({ data }: { data: RevealData }) {
   const t = useTranslations('reveal');
 
-  // When isFirstOpen = true, apply animation classes defined in globals.css.
-  // The CSS uses animation-fill-mode: both so elements start at opacity 0.
   const a = data.isFirstOpen;
 
   const editionLabel = `${String(data.editionNumber).padStart(3, '0')} / ${data.editionTotal}`;
+  const artAlt = `${data.bloomTitle} — Digital Florist, ${data.cityName}`;
 
   return (
     <main id="main-content" className="min-h-svh bg-df-black">
@@ -64,37 +57,26 @@ export default function RevealClient({ data }: { data: RevealData }) {
         </p>
       </div>
 
-      {/* ARTWORK — emerges from darkness */}
+      {/* ARTWORK — emerges from darkness; motion where available */}
       <div className={`mt-14 md:mt-20 ${a ? 'reveal-artwork' : ''}`}>
-        {data.stillAssetUrl ? (
-          <div className="relative mx-auto w-full aspect-[3/4] overflow-hidden md:max-w-[400px]">
-            <Image
-              src={data.stillAssetUrl}
-              alt={data.bloomTitle}
-              fill
-              className="object-cover"
-              priority
-              sizes="(max-width: 768px) 100vw, 400px"
-            />
-          </div>
-        ) : (
-          <div className="relative mx-auto w-full aspect-[3/4] overflow-hidden md:max-w-[400px]">
-            <BloomArtPlaceholder
-              slug={data.bloomSlug}
-              title={data.bloomTitle}
-              className="absolute inset-0"
-            />
-          </div>
-        )}
+        <div className="relative mx-auto w-full aspect-[3/4] overflow-hidden md:max-w-[400px]">
+          <BloomMedia
+            stillUrl={data.stillAssetUrl}
+            motionUrl={data.motionAssetUrl}
+            alt={artAlt}
+            priority
+            mode="reveal"
+            sizes="(max-width: 768px) 100vw, 400px"
+            className="absolute inset-0"
+          />
+        </div>
       </div>
 
-      {/* MESSAGE — private, preserved exactly as written */}
+      {/* MESSAGE */}
       <div className={`mx-auto mt-14 max-w-[520px] px-6 md:mt-20 ${a ? 'reveal-message' : ''}`}>
         <p className="mb-7 text-[8px] tracking-[0.22em] text-df-faint uppercase">
           {t('messageLabel')}
         </p>
-        {/* whitespace-pre-wrap preserves intentional line breaks.
-            Plain text — never rendered as HTML. */}
         <p className="whitespace-pre-wrap text-[15px] leading-[1.9] tracking-[0.015em] text-df-text">
           {data.privateMessage}
         </p>
