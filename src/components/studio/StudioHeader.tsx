@@ -37,6 +37,13 @@ export default function StudioHeader({ email }: StudioHeaderProps) {
           Activity
         </Link>
 
+        <Link
+          href="/studio/email-preview"
+          className="text-[9px] tracking-[0.2em] text-df-muted uppercase hover:text-df-text transition-colors duration-200"
+        >
+          Email Preview
+        </Link>
+
         <span className="text-df-faint text-[9px]">·</span>
 
         {email && (

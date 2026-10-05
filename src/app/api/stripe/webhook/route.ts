@@ -10,6 +10,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { getStripeServer } from '@/lib/stripe/server';
 import { createAdminClient } from '@/lib/supabase/admin';
+import { fulfillPaidGift } from '@/lib/fulfillment/fulfill-paid-gift';
 
 // Next.js App Router — read raw body as text for Stripe signature verification
 export async function POST(req: NextRequest) {
@@ -90,9 +91,19 @@ export async function POST(req: NextRequest) {
           return NextResponse.json({ error: 'Finalisation failed.' }, { status: 500 });
         }
 
-        // TODO (Build 06): call supabase.rpc('ensure_city_receipt', { p_gift_id: giftId })
-        // ensure_city_receipt is idempotent and service_role only.
-        // Log errors but do not fail the webhook — receipt issuance is non-critical.
+        // ── Fulfilment (Build 09) ──────────────────────────────────────────
+        // fulfillPaidGift is idempotent: calling it on a Stripe retry is safe.
+        // It handles: City Receipt, Reveal token, recipient email, sender confirmation.
+        // Email delivery failure does NOT fail the webhook — payment is permanent.
+        // We fire-and-forget in a microtask so Stripe gets a fast 200 response.
+        fulfillPaidGift(giftId).catch((err: unknown) => {
+          console.error(
+            '[webhook] fulfillPaidGift error for gift',
+            giftId,
+            ':',
+            err instanceof Error ? err.message : 'unknown',
+          );
+        });
 
         break;
       }

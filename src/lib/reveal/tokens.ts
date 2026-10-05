@@ -23,6 +23,39 @@ export function hashRevealToken(rawToken: string): string {
   return createHash('sha256').update(rawToken).digest('hex');
 }
 
+// ── Production HMAC token (hmac_v1 scheme) ─────────────────────────────────
+
+/**
+ * Derives a deterministic production reveal token from a stable gift ID.
+ *
+ * Algorithm:
+ *   raw_token  = HMAC-SHA256(REVEAL_TOKEN_SECRET, "v1:" + giftId) → base64url
+ *   token_hash = SHA-256(raw_token) → hex   (stored in DB; raw never stored)
+ *
+ * Properties:
+ *   - Deterministic: same secret + giftId always produces the same raw token.
+ *   - Unguessable: computationally infeasible without the server secret.
+ *   - Idempotent email retry: server can reproduce the URL without reading a stored secret.
+ *
+ * Throws if REVEAL_TOKEN_SECRET is absent or too short (< 32 chars).
+ */
+export function deriveHmacRevealToken(giftId: string): {
+  rawToken: string;
+  tokenHash: string;
+} {
+  const secret = process.env.REVEAL_TOKEN_SECRET;
+  if (!secret || secret.length < 32) {
+    throw new Error(
+      'REVEAL_TOKEN_SECRET must be set and at least 32 characters long.',
+    );
+  }
+  const rawToken = createHmac('sha256', secret)
+    .update(`v1:${giftId}`)
+    .digest('base64url');
+  const tokenHash = hashRevealToken(rawToken);
+  return { rawToken, tokenHash };
+}
+
 // ── Development preview tokens ─────────────────────────────────────────────
 // These tokens are:
 //   - Signed with REVEAL_DEV_SECRET (HMAC-SHA256)
