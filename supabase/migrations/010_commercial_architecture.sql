@@ -7,13 +7,18 @@
 -- This migration:
 --   1. Adds default_currency to cities
 --   2. Inserts New York (NYC)
---   3. Renames blooms.price_cents → price_minor
---   4. Renames gifts.amount_cents → amount_minor
---   5. Removes old "$25 USD only" constraints
---   6. Updates enforce_bloom_lifecycle trigger (new pricing rules)
---   7. Creates creators table
---   8. Creates creator_attributions table
---   9. Applies RLS
+--   3. Renames blooms.price_cents → price_minor; drops obsolete default
+--   4. Renames gifts.amount_cents → amount_minor; drops obsolete constraints
+--      and defaults; adds correct multi-currency constraints
+--   5. Drops old bloom_lifecycle_guard trigger
+--   6. Reprices the 15 live published Blooms to origin-city local pricing
+--      (must run while trigger is dropped — price/currency are immutable
+--      after publication in the new trigger)
+--   7. Creates new enforce_bloom_lifecycle trigger (multi-currency rules)
+--   8. Creates creators table with normalised-slug unique index
+--   9. Creates creator_attributions table
+--  10. Applies RLS
+--  11. Creates resolve_creator_ref RPC
 -- ============================================================
 
 
@@ -54,12 +59,17 @@ on conflict (code) do nothing;
 -- ============================================================
 -- PostgreSQL preserves all data and automatically updates
 -- CHECK constraint expressions that reference the renamed column.
--- The bloom_lifecycle_guard trigger is replaced in Section 5
+-- The bloom_lifecycle_guard trigger is replaced in Section 7
 -- because the function body uses dynamic SQL referencing column names.
 -- ============================================================
 
 alter table public.blooms
   rename column price_cents to price_minor;
+
+-- Remove the obsolete $25 default — application must now supply explicit price
+alter table public.blooms
+  alter column price_minor drop default,
+  alter column currency    drop default;
 
 -- Add supported-currency constraint
 alter table public.blooms
@@ -74,9 +84,18 @@ alter table public.blooms
 alter table public.gifts
   rename column amount_cents to amount_minor;
 
--- Drop old "$25 USD only" constraint (now obsolete)
+-- Drop old "$25 USD only" amount constraint (named in migration 003)
 alter table public.gifts
   drop constraint if exists gifts_amount_cents;
+
+-- Drop old USD-only currency constraint (created in migration 003)
+alter table public.gifts
+  drop constraint if exists gifts_currency;
+
+-- Remove the obsolete $25/USD defaults — application must now supply explicit values
+alter table public.gifts
+  alter column amount_minor drop default,
+  alter column currency     drop default;
 
 -- New constraint: must be a positive amount
 alter table public.gifts
@@ -90,17 +109,67 @@ alter table public.gifts
 
 
 -- ============================================================
--- SECTION 5: REPLACE BLOOM LIFECYCLE TRIGGER
+-- SECTION 5: DROP OLD BLOOM LIFECYCLE TRIGGER
 -- ============================================================
--- Replace the old trigger that enforced price_cents = 2500 and
--- currency = 'USD'. New rules:
+-- Must drop before repricing live Blooms in Section 6.
+-- The old trigger enforced price_cents = 2500 / currency = 'USD'
+-- and would reject the repricing updates.
+-- ============================================================
+
+drop trigger if exists bloom_lifecycle_guard on public.blooms;
+
+
+-- ============================================================
+-- SECTION 6: REPRICE LIVE PUBLISHED BLOOMS
+-- ============================================================
+-- The 15 Blooms inserted by migration 002 are real DB rows.
+-- They were published at 2500 USD. Now that the old lifecycle
+-- trigger is dropped, reprice them to origin-city launch rates
+-- before the new immutable-price trigger is recreated.
+--
+-- After Section 7 the trigger will enforce that price_minor and
+-- currency are immutable once published_at is set — so this
+-- window is the only safe time to make these corrections.
+--
+-- City launch defaults:
+--   LON  GBP  5000   (£50.00)
+--   DXB  AED  75000  (AED 750.00)
+--   MIL  EUR  5900   (€59.00)
+--   SEL  KRW  189000 (₩189,000)
+--   TYO  JPY  19800  (¥19,800)
+--   NYC  USD  — (no published Blooms yet)
+-- ============================================================
+
+update public.blooms
+set price_minor = 5000, currency = 'GBP'
+where city_id = (select id from public.cities where code = 'LON');
+
+update public.blooms
+set price_minor = 75000, currency = 'AED'
+where city_id = (select id from public.cities where code = 'DXB');
+
+update public.blooms
+set price_minor = 5900, currency = 'EUR'
+where city_id = (select id from public.cities where code = 'MIL');
+
+update public.blooms
+set price_minor = 189000, currency = 'KRW'
+where city_id = (select id from public.cities where code = 'SEL');
+
+update public.blooms
+set price_minor = 19800, currency = 'JPY'
+where city_id = (select id from public.cities where code = 'TYO');
+
+
+-- ============================================================
+-- SECTION 7: CREATE NEW BLOOM LIFECYCLE TRIGGER
+-- ============================================================
+-- New rules:
 --   - price_minor > 0  (any positive amount)
 --   - currency must be in supported set
 --   - Once published: price_minor and currency are immutable
 --   - (All other lifecycle rules preserved unchanged)
 -- ============================================================
-
-drop trigger if exists bloom_lifecycle_guard on public.blooms;
 
 create or replace function public.enforce_bloom_lifecycle()
 returns trigger
@@ -243,7 +312,7 @@ create trigger bloom_lifecycle_guard
 
 
 -- ============================================================
--- SECTION 6: CREATORS TABLE
+-- SECTION 8: CREATORS TABLE
 -- ============================================================
 
 create table public.creators (
@@ -270,6 +339,10 @@ create table public.creators (
 
 create index creators_slug_idx    on public.creators (slug);
 create index creators_active_idx  on public.creators (active);
+
+-- Case-insensitive normalised uniqueness: prevents "Maya" and "maya" coexisting
+create unique index creators_slug_normalized_unique
+  on public.creators (lower(trim(slug)));
 
 create trigger creators_updated_at
   before update on public.creators
@@ -303,7 +376,7 @@ create policy "studio_admin_update_creators"
 
 
 -- ============================================================
--- SECTION 7: CREATOR ATTRIBUTIONS TABLE
+-- SECTION 9: CREATOR ATTRIBUTIONS TABLE
 -- ============================================================
 -- Immutable commission snapshot at time of sale.
 -- commission_bps and commission_amount_minor are snapshotted
@@ -347,11 +420,12 @@ revoke all on public.creator_attributions from anon, authenticated;
 
 
 -- ============================================================
--- SECTION 8: resolve_creator_ref RPC
+-- SECTION 10: resolve_creator_ref RPC
 -- ============================================================
--- Safe public-callable lookup: returns only creator_id, slug, active.
+-- Safe server-side lookup: returns only creator_id, slug, active.
 -- Does NOT return email or commission rate.
 -- Called server-side during checkout to resolve referral cookie.
+-- Uses normalised slug comparison consistent with the unique index.
 -- ============================================================
 
 create or replace function public.resolve_creator_ref(p_slug text)
@@ -376,17 +450,22 @@ grant  execute on function public.resolve_creator_ref to service_role;
 
 
 -- ============================================================
--- SECTION 9: NOTES
+-- SECTION 11: NOTES
 -- ============================================================
 -- After applying this migration:
 --
---   New York is available as a city (empty — no Blooms yet)
---   Studio can create Blooms with any supported currency
---   Creator referral architecture is in place
+--   All 15 live published Blooms are now priced in their origin-city
+--   currency (LON GBP, DXB AED, MIL EUR, SEL KRW, TYO JPY).
+--   This repricing ran in Section 6 while the old trigger was
+--   dropped — the new trigger now enforces price immutability.
 --
--- Development seed Blooms (all USD/2500) are now GBP/EUR/etc
--- via the application seed data update — no SQL update needed
--- for seed rows since seed data is TypeScript-only fallback.
+--   New York is available as a city (empty — no Blooms yet).
+--   Studio can create Blooms with any supported currency.
+--   Creator referral architecture is in place.
+--
+--   The application no longer has implicit $25 USD defaults:
+--   price_minor and currency defaults have been dropped from
+--   both blooms and gifts — values must be supplied explicitly.
 --
 -- To add a creator:
 --   insert into public.creators (name, slug, commission_bps, active)
