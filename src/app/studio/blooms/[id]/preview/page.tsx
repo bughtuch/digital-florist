@@ -5,6 +5,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import type { BloomWithRelations } from '@/types';
+import { formatPriceStudio } from '@/lib/currency';
 
 export const dynamic = 'force-dynamic';
 
@@ -133,7 +134,7 @@ export default async function BloomPreviewPage({ params }: PreviewPageProps) {
               Price
             </p>
             <p className="text-[12px] text-df-muted">
-              ${(b.price_cents / 100).toFixed(0)}
+              {formatPriceStudio(b.price_minor, b.currency)}
             </p>
           </div>
         </div>

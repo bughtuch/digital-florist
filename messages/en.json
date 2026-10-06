@@ -16,8 +16,8 @@
     "cta": "SEND A BLOOM"
   },
   "cityStrip": {
-    "cities": ["LONDON", "DUBAI", "MILANO", "SEOUL", "TOKYO"],
-    "codes": ["LON", "DXB", "MIL", "SEL", "TYO"]
+    "cities": ["LONDON", "DUBAI", "MILANO", "SEOUL", "TOKYO", "NEW YORK"],
+    "codes": ["LON", "DXB", "MIL", "SEL", "TYO", "NYC"]
   },
   "manifesto": {
     "line1": "NOT FOR THE VASE.",
@@ -37,17 +37,18 @@
     "steps": [
       { "title": "CHOOSE", "body": "A Bloom from the current House collection." },
       { "title": "WRITE",  "body": "A private message. Nothing public." },
-      { "title": "SEND",   "body": "$25. Delivered privately. Kept forever." }
+      { "title": "SEND",   "body": "Delivered privately. Kept forever." }
     ]
   },
   "cityOrigins": {
-    "heading": "Five cities. One house.",
+    "heading": "Six cities. One house.",
     "cities": [
       { "code": "LON", "name": "London" },
       { "code": "DXB", "name": "Dubai" },
       { "code": "MIL", "name": "Milano" },
       { "code": "SEL", "name": "Seoul" },
-      { "code": "TYO", "name": "Tokyo" }
+      { "code": "TYO", "name": "Tokyo" },
+      { "code": "NYC", "name": "New York" }
     ]
   },
   "finalCta": {
@@ -56,7 +57,7 @@
   },
   "footer": {
     "tagline": "A flower that lives in code.",
-    "cities": "London · Dubai · Milano · Seoul · Tokyo",
+    "cities": "London · Dubai · Milano · Seoul · Tokyo · New York",
     "legal": {
       "privacy": "Privacy",
       "terms": "Terms",
@@ -89,7 +90,6 @@
   },
   "bloom": {
     "sendCta": "SEND THIS BLOOM",
-    "price": "$25",
     "edition": "EDITION",
     "origin": "ORIGIN",
     "house": "HOUSE",
@@ -126,9 +126,9 @@
       "edition": "EDITION",
       "message": "MESSAGE",
       "total": "TOTAL",
-      "price": "$25",
+      "price": "",
       "back": "← TO / FROM",
-      "cta": "SEND THIS BLOOM — $25",
+      "cta": "SEND THIS BLOOM",
       "preparing": "PREPARING YOUR BLOOM.",
       "cancel": "← CANCEL",
       "paymentHeading": "PAYMENT"

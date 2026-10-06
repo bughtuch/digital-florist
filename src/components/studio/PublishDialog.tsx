@@ -2,12 +2,16 @@
 
 'use client';
 
+import { formatPriceStudio } from '@/lib/currency';
+
 interface PublishDialogBloom {
   title: string;
   city_name: string;
   archive_code: string;
   edition_total: number;
   year: number;
+  price_minor?: number;
+  currency?: string;
 }
 
 interface PublishDialogProps {
@@ -49,7 +53,9 @@ export default function PublishDialog({
             Edition of {bloom.edition_total}
           </p>
           <p className="text-[11px] tracking-[0.1em] text-df-muted">
-            $25 · {bloom.year}
+            {bloom.price_minor && bloom.currency
+              ? `${formatPriceStudio(bloom.price_minor, bloom.currency)} · ${bloom.year}`
+              : bloom.year}
           </p>
         </div>
 

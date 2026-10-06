@@ -91,12 +91,14 @@ export async function POST(req: NextRequest) {
           return NextResponse.json({ error: 'Finalisation failed.' }, { status: 500 });
         }
 
-        // ── Fulfilment (Build 09) ──────────────────────────────────────────
+        // ── Fulfilment (Build 09 / 10) ─────────────────────────────────────
         // fulfillPaidGift is idempotent: calling it on a Stripe retry is safe.
-        // It handles: City Receipt, Reveal token, recipient email, sender confirmation.
+        // It handles: City Receipt, Reveal token, recipient email, sender confirmation,
+        // and creator attribution (Build 10).
         // Email delivery failure does NOT fail the webhook — payment is permanent.
         // We fire-and-forget in a microtask so Stripe gets a fast 200 response.
-        fulfillPaidGift(giftId).catch((err: unknown) => {
+        const creatorRef = session.metadata?.creator_ref || null;
+        fulfillPaidGift(giftId, creatorRef).catch((err: unknown) => {
           console.error(
             '[webhook] fulfillPaidGift error for gift',
             giftId,

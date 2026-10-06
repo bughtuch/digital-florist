@@ -20,13 +20,15 @@ import { createAdminClient } from '@/lib/supabase/admin';
 import { ensureRevealTokenForGift, buildRevealUrl } from './ensure-reveal-token';
 import { sendRecipientBloom } from '@/lib/email/send-recipient-bloom';
 import { sendSenderConfirmation } from '@/lib/email/send-sender-confirmation';
+import { createCreatorAttributionForGift } from './creator-attribution';
 
 export type FulfillStage =
   | 'verify_gift'
   | 'ensure_city_receipt'
   | 'ensure_reveal_token'
   | 'send_recipient_email'
-  | 'send_sender_email';
+  | 'send_sender_email'
+  | 'creator_attribution';
 
 export type FulfillPaidGiftResult = {
   ok: boolean;
@@ -34,7 +36,10 @@ export type FulfillPaidGiftResult = {
   stages: Partial<Record<FulfillStage, { ok: boolean; detail?: string }>>;
 };
 
-export async function fulfillPaidGift(giftId: string): Promise<FulfillPaidGiftResult> {
+export async function fulfillPaidGift(
+  giftId: string,
+  creatorRef?: string | null,
+): Promise<FulfillPaidGiftResult> {
   const supabase = createAdminClient();
   const stages: FulfillPaidGiftResult['stages'] = {};
 
@@ -131,6 +136,22 @@ export async function fulfillPaidGift(giftId: string): Promise<FulfillPaidGiftRe
     ok: senderResult.ok,
     detail: senderResult.ok ? undefined : senderResult.reason,
   };
+
+  // ── STAGE 6: Creator Attribution ─────────────────────────────────────────
+  if (creatorRef) {
+    try {
+      const attributionId = await createCreatorAttributionForGift(giftId, creatorRef);
+      stages.creator_attribution = attributionId
+        ? { ok: true, detail: attributionId }
+        : { ok: false, detail: 'Attribution not created (creator inactive or not found)' };
+    } catch (err: unknown) {
+      stages.creator_attribution = {
+        ok: false,
+        detail: err instanceof Error ? err.message : 'Attribution error',
+      };
+      // Non-fatal — continue
+    }
+  }
 
   // Overall success: gift verified + token + at least recipient email sent
   const overallOk =

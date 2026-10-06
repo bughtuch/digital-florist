@@ -5,11 +5,12 @@
 import type { BloomWithRelations, DbCity, DbCollection } from '@/types';
 
 const CITIES: Record<string, DbCity> = {
-  london:  { id: 'city-1', name: 'London',  code: 'LON', slug: 'london',  display_order: 1, active: true, created_at: '' },
-  dubai:   { id: 'city-2', name: 'Dubai',   code: 'DXB', slug: 'dubai',   display_order: 2, active: true, created_at: '' },
-  milano:  { id: 'city-3', name: 'Milano',  code: 'MIL', slug: 'milano',  display_order: 3, active: true, created_at: '' },
-  seoul:   { id: 'city-4', name: 'Seoul',   code: 'SEL', slug: 'seoul',   display_order: 4, active: true, created_at: '' },
-  tokyo:   { id: 'city-5', name: 'Tokyo',   code: 'TYO', slug: 'tokyo',   display_order: 5, active: true, created_at: '' },
+  london:   { id: 'city-1', name: 'London',   code: 'LON', slug: 'london',   display_order: 1, active: true, default_currency: 'GBP', created_at: '' },
+  dubai:    { id: 'city-2', name: 'Dubai',    code: 'DXB', slug: 'dubai',    display_order: 2, active: true, default_currency: 'AED', created_at: '' },
+  milano:   { id: 'city-3', name: 'Milano',   code: 'MIL', slug: 'milano',   display_order: 3, active: true, default_currency: 'EUR', created_at: '' },
+  seoul:    { id: 'city-4', name: 'Seoul',    code: 'SEL', slug: 'seoul',    display_order: 4, active: true, default_currency: 'KRW', created_at: '' },
+  tokyo:    { id: 'city-5', name: 'Tokyo',    code: 'TYO', slug: 'tokyo',    display_order: 5, active: true, default_currency: 'JPY', created_at: '' },
+  newyork:  { id: 'city-6', name: 'New York', code: 'NYC', slug: 'new-york', display_order: 6, active: true, default_currency: 'USD', created_at: '' },
 };
 
 const COLLECTIONS: Record<string, DbCollection> = {
@@ -25,6 +26,7 @@ function b(
   citySlug: string, collectionSlug: string, archiveCode: string,
   editionTotal: number, editionSold: number,
   materialNote: string, displayOrder: number, featured: boolean,
+  priceMinor: number, currency: string,
 ): BloomWithRelations {
   return {
     id: `bloom-${displayOrder}`,
@@ -35,8 +37,8 @@ function b(
     archive_code: archiveCode,
     edition_total: editionTotal,
     edition_sold: editionSold,
-    price_cents: 2500,
-    currency: 'USD',
+    price_minor: priceMinor,
+    currency,
     status: editionSold >= editionTotal ? 'archived' : 'available',
     still_asset_url: null,
     motion_asset_url: null,
@@ -54,26 +56,26 @@ function b(
 }
 
 export const SEED_BLOOMS: BloomWithRelations[] = [
-  // LONDON
-  b('black-calla',    'BLACK CALLA',    "For what I couldn't say properly.", 'london', 'memory',     'LON / 001', 250, 18,  'Obsidian / velvet field study',    1, true),
-  b('crimson-study',  'CRIMSON STUDY',  'Saturated hours.',                   'london', 'afterhours', 'LON / 002', 100,  7,  'Carmine / oxide surface',          2, false),
-  b('after-rain',     'AFTER RAIN',     'The city, after the weather.',        'london', 'morning',    'LON / 003', 500, 34,  'Slate / morning diffusion',        3, false),
-  // DUBAI
-  b('white-heat',     'WHITE HEAT',     'Light that touches nothing.',         'dubai',  'city',       'DXB / 001', 250, 12,  'Alabaster / bleached aperture',    4, false),
-  b('glass-orchid',   'GLASS ORCHID',   'Something worth keeping.',            'dubai',  'ritual',     'DXB / 002', 100,  3,  'Crystal / refraction study',       5, false),
-  b('midnight-ivory', 'MIDNIGHT IVORY', 'After the guests have gone.',         'dubai',  'afterhours', 'DXB / 003', 500, 61,  'Bone / late atmosphere',           6, false),
-  // MILANO
-  b('rosa-nera',      'ROSA NERA',      'No occasion. Just you.',              'milano', 'memory',     'MIL / 001', 250, 22,  'Midnight rose / archive pigment',  7, false),
-  b('oxblood',        'OXBLOOD',        'For a table that meant something.',   'milano', 'ritual',     'MIL / 002', 100,  9,  'Deep garnet / cold press',         8, false),
-  b('sculpture-i',    'SCULPTURE I',    'First light on cold stone.',          'milano', 'morning',    'MIL / 003', 500, 44,  'Marble ground / natural diffusion',9, false),
-  // SEOUL
-  b('clear-peony',    'CLEAR PEONY',    'Eight in the morning. Already perfect.', 'seoul', 'morning', 'SEL / 001', 250, 15,  'Silk / morning aperture',         10, false),
-  b('chrome-petal',   'CHROME PETAL',   'Everything speeds up. This stays still.','seoul', 'city',    'SEL / 002', 100,  6,  'Metallic / urban pressure',       11, false),
-  b('soft-signal',    'SOFT SIGNAL',    'After midnight.',                     'seoul',  'afterhours', 'SEL / 003', 500, 88,  'Charcoal / distilled hour',       12, false),
-  // TOKYO
-  b('paper-camellia', 'PAPER CAMELLIA', 'The ceremony is the point.',          'tokyo',  'ritual',     'TYO / 001', 250, 31,  'Washi / ceremony trace',          13, false),
-  b('ink-bloom',      'INK BLOOM',      'Left behind, but not forgotten.',     'tokyo',  'memory',     'TYO / 002', 100,  0,  'Sumi / memory suspension',        14, false),
-  b('still-stem',     'STILL STEM',     'Before anything has been decided.',   'tokyo',  'morning',    'TYO / 003', 500, 127, 'Rice field / held moment',        15, false),
+  // LONDON — GBP, 5000 = £50
+  b('black-calla',    'BLACK CALLA',    "For what I couldn't say properly.", 'london', 'memory',     'LON / 001', 250, 18,  'Obsidian / velvet field study',    1, true,  5000, 'GBP'),
+  b('crimson-study',  'CRIMSON STUDY',  'Saturated hours.',                   'london', 'afterhours', 'LON / 002', 100,  7,  'Carmine / oxide surface',          2, false, 5000, 'GBP'),
+  b('after-rain',     'AFTER RAIN',     'The city, after the weather.',        'london', 'morning',    'LON / 003', 500, 34,  'Slate / morning diffusion',        3, false, 5000, 'GBP'),
+  // DUBAI — AED, 75000 = AED 750
+  b('white-heat',     'WHITE HEAT',     'Light that touches nothing.',         'dubai',  'city',       'DXB / 001', 250, 12,  'Alabaster / bleached aperture',    4, false, 75000, 'AED'),
+  b('glass-orchid',   'GLASS ORCHID',   'Something worth keeping.',            'dubai',  'ritual',     'DXB / 002', 100,  3,  'Crystal / refraction study',       5, false, 75000, 'AED'),
+  b('midnight-ivory', 'MIDNIGHT IVORY', 'After the guests have gone.',         'dubai',  'afterhours', 'DXB / 003', 500, 61,  'Bone / late atmosphere',           6, false, 75000, 'AED'),
+  // MILANO — EUR, 5900 = €59
+  b('rosa-nera',      'ROSA NERA',      'No occasion. Just you.',              'milano', 'memory',     'MIL / 001', 250, 22,  'Midnight rose / archive pigment',  7, false, 5900, 'EUR'),
+  b('oxblood',        'OXBLOOD',        'For a table that meant something.',   'milano', 'ritual',     'MIL / 002', 100,  9,  'Deep garnet / cold press',         8, false, 5900, 'EUR'),
+  b('sculpture-i',    'SCULPTURE I',    'First light on cold stone.',          'milano', 'morning',    'MIL / 003', 500, 44,  'Marble ground / natural diffusion',9, false, 5900, 'EUR'),
+  // SEOUL — KRW, 189000 = ₩189,000
+  b('clear-peony',    'CLEAR PEONY',    'Eight in the morning. Already perfect.', 'seoul', 'morning', 'SEL / 001', 250, 15,  'Silk / morning aperture',         10, false, 189000, 'KRW'),
+  b('chrome-petal',   'CHROME PETAL',   'Everything speeds up. This stays still.','seoul', 'city',    'SEL / 002', 100,  6,  'Metallic / urban pressure',       11, false, 189000, 'KRW'),
+  b('soft-signal',    'SOFT SIGNAL',    'After midnight.',                     'seoul',  'afterhours', 'SEL / 003', 500, 88,  'Charcoal / distilled hour',       12, false, 189000, 'KRW'),
+  // TOKYO — JPY, 19800 = ¥19,800
+  b('paper-camellia', 'PAPER CAMELLIA', 'The ceremony is the point.',          'tokyo',  'ritual',     'TYO / 001', 250, 31,  'Washi / ceremony trace',          13, false, 19800, 'JPY'),
+  b('ink-bloom',      'INK BLOOM',      'Left behind, but not forgotten.',     'tokyo',  'memory',     'TYO / 002', 100,  0,  'Sumi / memory suspension',        14, false, 19800, 'JPY'),
+  b('still-stem',     'STILL STEM',     'Before anything has been decided.',   'tokyo',  'morning',    'TYO / 003', 500, 127, 'Rice field / held moment',        15, false, 19800, 'JPY'),
 ];
 
 export const SEED_COLLECTIONS = Object.values(COLLECTIONS);

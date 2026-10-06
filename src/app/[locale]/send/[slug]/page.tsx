@@ -44,6 +44,8 @@ export default async function SendPage({ params }: Props) {
     editionDisplay: edition.label,
     isArchived: edition.isArchived,
     stillAssetUrl: bloom.still_asset_url,
+    priceMinor: bloom.price_minor,
+    currency: bloom.currency,
   };
 
   return (

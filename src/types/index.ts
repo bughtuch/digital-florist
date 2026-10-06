@@ -9,6 +9,7 @@ export type DbCity = {
   slug: string;
   display_order: number;
   active: boolean;
+  default_currency: string;
   created_at: string;
 };
 
@@ -33,7 +34,8 @@ export type DbBloom = {
   archive_code: string;
   edition_total: number;
   edition_sold: number;
-  price_cents: number;
+  /** Amount in currency's smallest unit (pence, cents, fils, yen, won…). */
+  price_minor: number;
   currency: string;
   status: BloomStatus;
   still_asset_url: string | null;
@@ -91,7 +93,8 @@ export type DbGift = {
   private_message: string;
   locale: string;
   edition_number: number | null;
-  amount_cents: number;
+  /** Amount in currency's smallest unit — snapshot at purchase time, immutable. */
+  amount_minor: number;
   currency: string;
   status: GiftStatus;
   stripe_checkout_session_id: string | null;
@@ -109,9 +112,11 @@ export type SendBloomData = {
   title: string;
   cityCode: string;
   archiveCode: string;
-  editionDisplay: string;  // e.g. "019 / 250"
+  editionDisplay: string;   // e.g. "019 / 250"
   isArchived: boolean;
   stillAssetUrl: string | null;
+  priceMinor: number;        // official list price in smallest currency unit
+  currency: string;          // ISO-4217 currency code
 };
 
 // What the /[locale]/sent page displays after payment is confirmed
@@ -121,4 +126,33 @@ export type GiftConfirmation = {
   archiveCode: string;
   editionNumber: number;
   editionTotal: number;
+};
+
+// ——————————————————————————————————————
+// Creator / Attribution types (Build 10)
+// ——————————————————————————————————————
+
+export type DbCreator = {
+  id: string;
+  name: string;
+  slug: string;
+  city_id: string | null;
+  email: string | null;
+  commission_bps: number; // e.g. 4000 = 40%
+  active: boolean;
+  created_at: string;
+  updated_at: string;
+};
+
+export type CreatorAttributionStatus = 'pending' | 'approved' | 'paid' | 'cancelled';
+
+export type DbCreatorAttribution = {
+  id: string;
+  creator_id: string;
+  gift_id: string;
+  commission_bps: number;
+  commission_amount_minor: number;
+  currency: string;
+  status: CreatorAttributionStatus;
+  created_at: string;
 };

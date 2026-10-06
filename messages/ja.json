@@ -16,8 +16,8 @@
     "cta": "ブルームを送る"
   },
   "cityStrip": {
-    "cities": ["LONDON", "DUBAI", "MILANO", "SEOUL", "TOKYO"],
-    "codes": ["LON", "DXB", "MIL", "SEL", "TYO"]
+    "cities": ["LONDON", "DUBAI", "MILANO", "SEOUL", "TOKYO", "NEW YORK"],
+    "codes": ["LON", "DXB", "MIL", "SEL", "TYO", "NYC"]
   },
   "manifesto": {
     "line1": "花瓶のためではない。",
@@ -45,18 +45,19 @@
       },
       {
         "title": "送る",
-        "body": "$25。プライベートに届けられます。永遠に保存されます。"
+        "body": "プライベートに届けられます。永遠に保存されます。"
       }
     ]
   },
   "cityOrigins": {
-    "heading": "五つの都市。一つのハウス。",
+    "heading": "六つの都市。一つのハウス。",
     "cities": [
       { "code": "LON", "name": "ロンドン" },
       { "code": "DXB", "name": "ドバイ" },
       { "code": "MIL", "name": "ミラノ" },
       { "code": "SEL", "name": "ソウル" },
-      { "code": "TYO", "name": "東京" }
+      { "code": "TYO", "name": "東京" },
+      { "code": "NYC", "name": "ニューヨーク" }
     ]
   },
   "finalCta": {
@@ -65,7 +66,7 @@
   },
   "footer": {
     "tagline": "コードの中に生きる花。",
-    "cities": "ロンドン · ドバイ · ミラノ · ソウル · 東京",
+    "cities": "ロンドン · ドバイ · ミラノ · ソウル · 東京 · ニューヨーク",
     "legal": {
       "privacy": "プライバシー",
       "terms": "利用規約",
@@ -98,7 +99,6 @@
   },
   "bloom": {
     "sendCta": "このブルームを送る",
-    "price": "$25",
     "edition": "エディション",
     "origin": "出所",
     "house": "ハウス",

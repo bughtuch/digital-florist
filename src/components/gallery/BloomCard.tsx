@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import type { BloomWithRelations } from '@/types';
 import BloomMedia from '@/components/bloom/BloomMedia';
+import { formatPrice } from '@/lib/currency';
 
 const LAYOUT = [
   { grid: 'md:col-span-8',  aspect: 'aspect-portrait' },
@@ -33,13 +34,14 @@ export default function BloomCard({ bloom, index, locale, localizedTitle }: Prop
   const layout = LAYOUT[index % LAYOUT.length];
   const isArchived = bloom.status === 'archived' || bloom.edition_sold >= bloom.edition_total;
   const title = localizedTitle || bloom.title;
+  const priceLabel = isArchived ? 'Archived' : formatPrice(bloom.price_minor, bloom.currency, locale);
 
   return (
     <article className={`col-span-12 ${layout.grid}`}>
       <Link
         href={`/${locale}/bloom/${bloom.slug}`}
         className="group block focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-df-text"
-        aria-label={`${title} — ${bloom.city.name}${isArchived ? ' — Archived' : ' — $25'}`}
+        aria-label={`${title} — ${bloom.city.name}${isArchived ? ' — Archived' : ` — ${priceLabel}`}`}
       >
         {/* Artwork area — still only in gallery (no motion preload) */}
         <div className={`relative overflow-hidden ${layout.aspect}`}>
@@ -69,7 +71,7 @@ export default function BloomCard({ bloom, index, locale, localizedTitle }: Prop
               {bloom.city.name}
             </p>
             <p className="mt-3 text-[11px] tracking-[0.1em] text-df-text">
-              {isArchived ? 'ARCHIVED' : '$25'}
+              {isArchived ? 'ARCHIVED' : priceLabel}
             </p>
           </div>
         </div>
@@ -81,7 +83,7 @@ export default function BloomCard({ bloom, index, locale, localizedTitle }: Prop
           </p>
           <p className="mt-1 text-[10px] tracking-[0.1em] text-df-muted">
             {bloom.city.name}
-            {isArchived ? ' · ARCHIVED' : ' · $25'}
+            {isArchived ? ' · ARCHIVED' : ` · ${priceLabel}`}
           </p>
         </div>
       </Link>

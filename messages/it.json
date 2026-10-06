@@ -16,8 +16,8 @@
     "cta": "INVIA UN BLOOM"
   },
   "cityStrip": {
-    "cities": ["LONDON", "DUBAI", "MILANO", "SEOUL", "TOKYO"],
-    "codes": ["LON", "DXB", "MIL", "SEL", "TYO"]
+    "cities": ["LONDON", "DUBAI", "MILANO", "SEOUL", "TOKYO", "NEW YORK"],
+    "codes": ["LON", "DXB", "MIL", "SEL", "TYO", "NYC"]
   },
   "manifesto": {
     "line1": "NON PER IL VASO.",
@@ -45,18 +45,19 @@
       },
       {
         "title": "INVIA",
-        "body": "$25. Consegnato privatamente. Conservato per sempre."
+        "body": "Consegnato privatamente. Conservato per sempre."
       }
     ]
   },
   "cityOrigins": {
-    "heading": "Cinque città. Una casa.",
+    "heading": "Sei città. Una casa.",
     "cities": [
       { "code": "LON", "name": "London" },
       { "code": "DXB", "name": "Dubai" },
       { "code": "MIL", "name": "Milano" },
       { "code": "SEL", "name": "Seoul" },
-      { "code": "TYO", "name": "Tokyo" }
+      { "code": "TYO", "name": "Tokyo" },
+      { "code": "NYC", "name": "New York" }
     ]
   },
   "finalCta": {
@@ -65,7 +66,7 @@
   },
   "footer": {
     "tagline": "Un fiore che vive nel codice.",
-    "cities": "London · Dubai · Milano · Seoul · Tokyo",
+    "cities": "London · Dubai · Milano · Seoul · Tokyo · New York",
     "legal": {
       "privacy": "Privacy",
       "terms": "Termini",
@@ -98,7 +99,6 @@
   },
   "bloom": {
     "sendCta": "INVIA QUESTO BLOOM",
-    "price": "$25",
     "edition": "EDIZIONE",
     "origin": "ORIGINE",
     "house": "CASA",

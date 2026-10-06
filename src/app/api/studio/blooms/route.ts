@@ -44,15 +44,17 @@ export async function POST(request: NextRequest) {
     year,
     display_order,
     featured,
+    price_minor,
+    currency,
     still_asset_url,
     motion_asset_url,
     source_asset_url,
   } = body;
 
   // Required field validation
-  if (!title || !slug || !city_id || !collection_id) {
+  if (!title || !slug || !city_id || !collection_id || !price_minor || !currency) {
     return NextResponse.json(
-      { error: 'title, slug, city_id, and collection_id are required' },
+      { error: 'title, slug, city_id, collection_id, price_minor, and currency are required' },
       { status: 400 },
     );
   }
@@ -73,8 +75,8 @@ export async function POST(request: NextRequest) {
       display_order: Number(display_order) || 0,
       featured: Boolean(featured),
       status: 'draft',
-      price_cents: 2500,
-      currency: 'USD',
+      price_minor: Number(price_minor),
+      currency: (currency as string).toUpperCase(),
       still_asset_url: still_asset_url ?? null,
       motion_asset_url: motion_asset_url ?? null,
       source_asset_url: source_asset_url ?? null,

@@ -5,6 +5,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import type { BloomWithRelations, DbCity, DbCollection, BloomStatus } from '@/types';
+import { SUPPORTED_CURRENCIES, parseInputToMinor, formatPriceStudio, CITY_DEFAULT_CURRENCY } from '@/lib/currency';
 import TranslationEditor from '@/components/studio/TranslationEditor';
 import MediaUploadSection from '@/components/studio/MediaUploadSection';
 import PublishDialog from '@/components/studio/PublishDialog';
@@ -79,6 +80,15 @@ export default function BloomFormClient({
   const [year, setYear] = useState(bloom?.year ?? currentYear);
   const [displayOrder, setDisplayOrder] = useState(bloom?.display_order ?? 0);
   const [featured, setFeatured] = useState(bloom?.featured ?? false);
+  const [currency, setCurrency] = useState(bloom?.currency ?? '');
+  // Display value for price input — decimal string (e.g. "50" for £50, "19800" for ¥19,800)
+  const [priceInput, setPriceInput] = useState(() => {
+    if (!bloom?.price_minor || !bloom?.currency) return '';
+    const decimals = bloom.currency === 'JPY' || bloom.currency === 'KRW' ? 0 : 2;
+    return decimals === 0
+      ? String(bloom.price_minor)
+      : (bloom.price_minor / Math.pow(10, decimals)).toFixed(decimals);
+  });
 
   // Media state
   const [stillUrl, setStillUrl] = useState(bloom?.still_asset_url ?? null);
@@ -126,14 +136,21 @@ export default function BloomFormClient({
   useEffect(() => {
     if (mode === 'new' && cityId) {
       const city = cities.find((c) => c.id === cityId);
-      if (city) fetchArchiveSuggestion(city.code);
+      if (city) {
+        fetchArchiveSuggestion(city.code);
+        // Suggest city default currency if not yet set
+        const defaultCurrency = CITY_DEFAULT_CURRENCY[city.code];
+        if (defaultCurrency && !currency) setCurrency(defaultCurrency);
+      }
     }
-  }, [cityId, cities, mode, fetchArchiveSuggestion]);
+  }, [cityId, cities, mode, fetchArchiveSuggestion, currency]);
 
   async function handleSave() {
     setSaving(true);
     setSaveError('');
     setSaveSuccess(false);
+
+    const priceMinor = parseInputToMinor(priceInput, currency);
 
     const payload = {
       title: title.trim(),
@@ -147,6 +164,8 @@ export default function BloomFormClient({
       year: Number(year),
       display_order: Number(displayOrder),
       featured,
+      price_minor: priceMinor,
+      currency: currency.toUpperCase(),
       still_asset_url: stillUrl,
       motion_asset_url: motionUrl,
       source_asset_url: sourceUrl,
@@ -421,6 +440,65 @@ export default function BloomFormClient({
               />
             )}
           </div>
+
+          {/* Currency */}
+          <div>
+            <label className={LABEL} htmlFor="currency">
+              Currency
+              {isLocked && (
+                <span className="ml-2 text-df-faint">· Locked</span>
+              )}
+            </label>
+            {isLocked ? (
+              <div className={LOCKED_FIELD}>{currency}</div>
+            ) : (
+              <select
+                id="currency"
+                value={currency}
+                onChange={(e) => setCurrency(e.target.value)}
+                className={INPUT}
+              >
+                <option value="">— Select currency —</option>
+                {SUPPORTED_CURRENCIES.map((c) => (
+                  <option key={c} value={c}>{c}</option>
+                ))}
+              </select>
+            )}
+          </div>
+
+          {/* Price */}
+          <div>
+            <label className={LABEL} htmlFor="price">
+              Price
+              {isLocked && (
+                <span className="ml-2 text-df-faint">· Locked</span>
+              )}
+            </label>
+            {isLocked ? (
+              <div className={LOCKED_FIELD}>
+                {bloom?.price_minor && bloom?.currency
+                  ? formatPriceStudio(bloom.price_minor, bloom.currency)
+                  : '—'}
+              </div>
+            ) : (
+              <div className="relative">
+                <input
+                  id="price"
+                  type="text"
+                  inputMode="decimal"
+                  value={priceInput}
+                  onChange={(e) => setPriceInput(e.target.value)}
+                  className={INPUT}
+                  placeholder={currency === 'JPY' || currency === 'KRW' ? '19800' : '50.00'}
+                />
+                {currency && priceInput && (
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[9px] text-df-faint">
+                    {currency}
+                  </span>
+                )}
+              </div>
+            )}
+          </div>
         </div>
       </section>
 
@@ -655,6 +733,8 @@ export default function BloomFormClient({
             archive_code: bloom.archive_code,
             edition_total: bloom.edition_total,
             year: bloom.year,
+            price_minor: bloom.price_minor,
+            currency: bloom.currency,
           }}
           onConfirm={handlePublish}
           onCancel={() => {

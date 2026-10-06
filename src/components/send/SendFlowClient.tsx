@@ -154,6 +154,7 @@ export default function SendFlowClient({ bloom, locale }: Props) {
         {step === 3 && (
           <ReviewPayStep
             bloom={bloom}
+            locale={locale}
             data={{
               message: form.message,
               recipientName: form.recipientName,

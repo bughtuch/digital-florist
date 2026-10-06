@@ -3,6 +3,7 @@
 import { useTranslations } from 'next-intl';
 import BloomArtPlaceholder from '@/components/gallery/BloomArtPlaceholder';
 import EmbeddedCheckoutWrapper from './EmbeddedCheckoutWrapper';
+import { formatPrice } from '@/lib/currency';
 import type { SendBloomData } from '@/types';
 
 type CheckoutPhase = 'idle' | 'creating' | 'ready' | 'error';
@@ -15,6 +16,7 @@ type ReviewData = {
 
 type Props = {
   bloom: SendBloomData;
+  locale: string;
   data: ReviewData;
   checkoutPhase: CheckoutPhase;
   clientSecret: string;
@@ -26,6 +28,7 @@ type Props = {
 
 export default function ReviewPayStep({
   bloom,
+  locale,
   data,
   checkoutPhase,
   clientSecret,
@@ -35,6 +38,9 @@ export default function ReviewPayStep({
   onCancelCheckout,
 }: Props) {
   const t = useTranslations('send');
+  const priceDisplay = bloom.priceMinor && bloom.currency
+    ? formatPrice(bloom.priceMinor, bloom.currency, locale)
+    : t('step3.price');
 
   // Phase: show embedded Stripe checkout
   if (checkoutPhase === 'ready' && clientSecret) {
@@ -118,7 +124,7 @@ export default function ReviewPayStep({
           {t('step3.total')}
         </p>
         <p className="text-[15px] tracking-[0.06em] text-df-text">
-          {t('step3.price')}
+          {priceDisplay}
         </p>
       </div>
 

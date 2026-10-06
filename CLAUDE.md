@@ -17,7 +17,6 @@ A customer chooses a Digital Bloom, writes a short private message, pays a fixed
 - No AI-startup aesthetic
 - No SaaS cards or dashboard styling on the public site
 - Digital Florist curates the Blooms — customers do not generate their own
-- Every available Digital Bloom costs exactly $25
 - Brand line: **"Not for the vase. For the vault."**
 - Real physical flowers are the original source material for House Blooms
 - AI is a studio technique, never the public product proposition
@@ -34,6 +33,20 @@ A customer chooses a Digital Bloom, writes a short private message, pays a fixed
 | Milano | MIL |
 | Seoul | SEL |
 | Tokyo | TYO |
+| New York | NYC |
+
+---
+
+## PRICING ARCHITECTURE
+
+- Pricing is local: each Bloom has a `price_minor` (integer) and `currency` stored in the DB.
+- `price_minor` is always the smallest currency unit (pence, cents, fils, yen, won).
+- Zero-decimal currencies (JPY, KRW): `price_minor` equals the display amount (no divide by 100).
+- Standard currencies (GBP, EUR, USD, AED): `price_minor` / 100 = display amount.
+- Default city currencies: LON→GBP, DXB→AED, MIL→EUR, SEL→KRW, TYO→JPY, NYC→USD.
+- Never hardcode price or currency in UI — always read from `price_minor` + `currency`.
+- Use `formatPrice(minor, currency, locale)` from `@/lib/currency` for display.
+- Use `parseInputToMinor(input, currency)` for Studio price entry.
 
 ---
 
@@ -70,7 +83,7 @@ AFTERHOURS / MORNING / MEMORY / RITUAL / CITY
 ## CUSTOMER FLOW (FUTURE)
 
 ```
-CHOOSE → WRITE → RECIPIENT → $25 → SENT → REVEAL → KEEP IN VAULT
+CHOOSE → WRITE → RECIPIENT → PAY → SENT → REVEAL → KEEP IN VAULT
 ```
 
 Maximum private message length: approximately 320 characters.

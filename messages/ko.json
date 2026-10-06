@@ -16,8 +16,8 @@
     "cta": "블룸 보내기"
   },
   "cityStrip": {
-    "cities": ["LONDON", "DUBAI", "MILANO", "SEOUL", "TOKYO"],
-    "codes": ["LON", "DXB", "MIL", "SEL", "TYO"]
+    "cities": ["LONDON", "DUBAI", "MILANO", "SEOUL", "TOKYO", "NEW YORK"],
+    "codes": ["LON", "DXB", "MIL", "SEL", "TYO", "NYC"]
   },
   "manifesto": {
     "line1": "꽃병을 위한 것이 아닙니다.",
@@ -45,18 +45,19 @@
       },
       {
         "title": "전송",
-        "body": "$25. 비공개로 전달됩니다. 영원히 보관됩니다."
+        "body": "비공개로 전달됩니다. 영원히 보관됩니다."
       }
     ]
   },
   "cityOrigins": {
-    "heading": "다섯 도시. 하나의 하우스.",
+    "heading": "여섯 도시. 하나의 하우스.",
     "cities": [
       { "code": "LON", "name": "런던" },
       { "code": "DXB", "name": "두바이" },
       { "code": "MIL", "name": "밀라노" },
       { "code": "SEL", "name": "서울" },
-      { "code": "TYO", "name": "도쿄" }
+      { "code": "TYO", "name": "도쿄" },
+      { "code": "NYC", "name": "뉴욕" }
     ]
   },
   "finalCta": {
@@ -65,7 +66,7 @@
   },
   "footer": {
     "tagline": "코드 속에 사는 꽃.",
-    "cities": "런던 · 두바이 · 밀라노 · 서울 · 도쿄",
+    "cities": "런던 · 두바이 · 밀라노 · 서울 · 도쿄 · 뉴욕",
     "legal": {
       "privacy": "개인정보",
       "terms": "이용약관",
@@ -98,7 +99,6 @@
   },
   "bloom": {
     "sendCta": "이 블룸 보내기",
-    "price": "$25",
     "edition": "에디션",
     "origin": "출처",
     "house": "하우스",

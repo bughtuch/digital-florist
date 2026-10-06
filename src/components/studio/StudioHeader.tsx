@@ -38,6 +38,13 @@ export default function StudioHeader({ email }: StudioHeaderProps) {
         </Link>
 
         <Link
+          href="/studio/creators"
+          className="text-[9px] tracking-[0.2em] text-df-muted uppercase hover:text-df-text transition-colors duration-200"
+        >
+          Creators
+        </Link>
+
+        <Link
           href="/studio/email-preview"
           className="text-[9px] tracking-[0.2em] text-df-muted uppercase hover:text-df-text transition-colors duration-200"
         >

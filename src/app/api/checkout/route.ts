@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
     // ── Fetch and verify Bloom server-side ──────────────────────────────
     const { data: bloom, error: bloomError } = await supabase
       .from('blooms')
-      .select('id, title, archive_code, edition_total, edition_sold, price_cents, currency, status, published_at, city:cities(code)')
+      .select('id, title, archive_code, edition_total, edition_sold, price_minor, currency, status, published_at, city:cities(code)')
       .eq('slug', slug)
       .maybeSingle();
 
@@ -72,7 +72,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Price verification — never trust the browser for price
-    if (bloom.price_cents !== 2500 || bloom.currency.toUpperCase() !== 'USD') {
+    if (!bloom.price_minor || bloom.price_minor <= 0 || !bloom.currency) {
       console.error('[checkout] price verification failed for bloom:', slug);
       return NextResponse.json({ error: 'Price verification failed.' }, { status: 400 });
     }
@@ -89,8 +89,8 @@ export async function POST(req: NextRequest) {
         private_message: message,
         locale,
         status: 'draft',
-        amount_cents: 2500,
-        currency: 'USD',
+        amount_minor: bloom.price_minor,
+        currency: bloom.currency,
       })
       .select('id')
       .single();
@@ -124,8 +124,8 @@ export async function POST(req: NextRequest) {
       line_items: [
         {
           price_data: {
-            currency: 'usd',
-            unit_amount: 2500,
+            currency: bloom.currency.toLowerCase(),
+            unit_amount: bloom.price_minor,
             tax_behavior: 'inclusive',
             product_data: {
               name: bloom.title,
@@ -140,6 +140,7 @@ export async function POST(req: NextRequest) {
         metadata: {
           gift_id: gift.id,
           bloom_id: bloom.id,
+          creator_ref: req.cookies.get('df_ref')?.value ?? '',
         },
       },
 
@@ -148,6 +149,7 @@ export async function POST(req: NextRequest) {
       metadata: {
         gift_id: gift.id,
         bloom_id: bloom.id,
+        creator_ref: req.cookies.get('df_ref')?.value ?? '',
       },
 
       ...(automaticTaxEnabled ? { automatic_tax: { enabled: true } } : {}),
